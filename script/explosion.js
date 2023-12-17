@@ -3,7 +3,7 @@ function kaboom(x, y, Size){
 	this.ExplodeDistance = 0;
 	this.Done = false;
 	
-	this.draw = function(){
+	this.draw = function(ctx){
 		if(!this.Done){
 			this.ExplodeDistance += 0.5;
 			ctx.beginPath();
