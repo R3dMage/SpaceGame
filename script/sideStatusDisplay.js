@@ -15,15 +15,15 @@ function sideStatusDisplay(x, y, width, height){
 		ctx.fillText( 'Gun:', 505, 120 );
 		ctx.fillText( 'Shield:', 505, 140 );
 
-		if( Player.Shields == 0 )
+		if( player.Shields == 0 )
 			ctx.fillText( 'NONE', 550, 140 );
 		else
 		{
-			ctx.fillStyle = WeightChart(Player.Shields);
+			ctx.fillStyle = WeightChart(player.Shields);
 			ctx.fillRect( 550, 130, 40, 10 );
 		}
 		
-		ctx.fillStyle = WeightChart(Player.WeaponWeight);
+		ctx.fillStyle = WeightChart(player.WeaponWeight);
 		ctx.fillRect( 550, 110, 40, 10 );
 
 		let bottomY = 690
