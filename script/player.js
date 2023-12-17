@@ -1,16 +1,17 @@
 function player(){
 // Drawing
-    this.Wingspan = 8;
-    
+	this.Wingspan = 8;
+	
 // Weaponry
 	this.WaveCannon = false;
 	this.DualCannon = false;
 	this.WeaponWeight = 1;
 
 // Shields
-    this.Shields = 0;
+	this.Shields = 0;
 
 // Player Damaged / Killed
+	this.speed = 8;
 	this.InvincibleTime = 0;
 	this.Invincible = false;
 	this.Exploding = false;
@@ -21,39 +22,45 @@ function player(){
 		this.WaveCannon = false;
 		this.DualCannon = false;
 		this.WeaponWeight = 1;
-        this.Shields = 0;
+		this.Shields = 0;
 	}
 	
 	this.setPosition = function(x, y){
 		if(!this.Exploding){
-            if(x < 0)
-                x = 0;
-            else if( x > 500 - (this.Wingspan * 2))
-                x = 500 - (this.Wingspan * 2);
-            
-            if(y < 0)
-                y = 0;
-            if(y > 720 - this.Height)
-                y = 720 - this.Height;
-                
+			if(x < 0)
+				x = 0;
+			else if( x > 500 - (this.Wingspan * 2))
+				x = 500 - (this.Wingspan * 2);
+			
+			if(y < 0)
+				y = 0;
+			if(y > 720 - this.Height)
+				y = 720 - this.Height;
+				
 			this.loc.X = x;
 			this.loc.Y = y;
 		}
 	}
-    
-    this.getMissileType = function(){
-        if(this.WaveCannon)
-            return 'WAVE';
-        
-        if(this.DualCannon)
-            return 'DUAL';
-        
-        return 'SINGLE';
-    }
 	
-	this.draw = function(){
-        var drawX = this.loc.X + this.Wingspan;
-        var drawY = this.loc.Y;
+	this.getMissileType = function(){
+		if(this.WaveCannon)
+			return 'WAVE';
+		
+		if(this.DualCannon)
+			return 'DUAL';
+		
+		return 'SINGLE';
+	}
+	
+	this.draw = function(ctx){
+		if(debugCollisions){
+			ctx.strokeStyle = 'White';
+			ctx.strokeRect(this.loc.X, this.loc.Y, this.loc.Width, this.loc.Height);
+			return;
+		}
+
+		let drawX = this.loc.X + this.Wingspan;
+		let drawY = this.loc.Y;
 		try {
 			if(!this.Exploding){
 				ctx.beginPath();
@@ -64,20 +71,20 @@ function player(){
 				ctx.lineTo(drawX, drawY);
 				ctx.closePath();
 				if(this.Invincible){
-                    ctx.font = '10px Arial';
+					ctx.font = '10px Arial';
 					ctx.fillStyle = 'rgba(142,214,255,' + this.InvincibleTime * 0.013 + ')';
-                    ctx.fillText(75 - this.InvincibleTime, this.loc.getX1() - 5, this.loc.Y + 10);
+					ctx.fillText(75 - this.InvincibleTime, this.loc.getX1() - 5, this.loc.Y + 10);
 					this.InvincibleTime += 1;
 					if(this.InvincibleTime >= 75){
 						this.InvincibleTime = 0;
 						this.Invincible = false;
 					}
-				}						
+				}
 				else
 					ctx.fillStyle = 'rgba(142,214,255,255)';
 				ctx.fill();
-                if( this.Shields > 0 )
-                    this.drawShields();
+				if( this.Shields > 0 )
+					this.drawShields(ctx);
 			}
 			else{
 				this.ExplodeDistance += 0.5;
@@ -100,30 +107,47 @@ function player(){
 		catch (e){
 		}
 	}
-    
-    this.drawShields = function(){
-        var ShieldRadius = 0;
-        if( this.loc.Width > this.loc.Height )
-            ShieldRadius = this.loc.Width;
-        else
-            ShieldRadius = this.loc.Height;
-        
-        ctx.strokeStyle = WeightChart(this.Shields);
-        ctx.beginPath();
-        ctx.arc(this.loc.X + this.Wingspan, this.loc.Y + this.loc.Height/2, ShieldRadius, 2 * Math.PI, false);
-        ctx.closePath();
-        ctx.stroke();
-    }
+	
+	this.drawShields = function(ctx){
+		let ShieldRadius = 0;
+		if( this.loc.Width > this.loc.Height )
+			ShieldRadius = this.loc.Width;
+		else
+			ShieldRadius = this.loc.Height;
+		
+		ctx.strokeStyle = WeightChart(this.Shields);
+		ctx.beginPath();
+		ctx.arc(this.loc.X + this.Wingspan, this.loc.Y + this.loc.Height/2, ShieldRadius, 2 * Math.PI, false);
+		ctx.closePath();
+		ctx.stroke();
+	}
+
+	this.moveLeft = function(){
+		this.setPosition(this.loc.X - this.speed, this.loc.Y);
+	}
+
+	this.moveRight = function(){
+		this.setPosition(this.loc.X + this.speed, this.loc.Y);
+	}
+
+	this.moveUp = function(){
+		this.setPosition(this.loc.X, this.loc.Y - this.speed);
+	}
+
+	this.moveDown = function(){
+		this.setPosition(this.loc.X, this.loc.Y + this.speed);
+	}
 }
-  
+
 function missile(x, y, weight, direction, isWave){
 	if(isWave)
 		this.loc = new position(x, y, 40, 10);
 	else
 		this.loc = new position(x, y, 3, 9);
-  this.Weight = weight;
-  this.Direction = direction;
-  this.Wave = isWave;
+	this.Weight = weight;
+	this.Direction = direction;
+	this.Wave = isWave;
+	this.alive = true;
   
   switch(this.Direction){
   case 0:
@@ -133,46 +157,45 @@ function missile(x, y, weight, direction, isWave){
 	this.Duration = y + 400;
 	break;
   }
-  
-  this.Color = WeightChart(this.Weight);
-  
-  this.draw = function(){
-	if(this.Wave){
-		ctx.beginPath();
-		ctx.arc(this.loc.X,this.loc.Y,20, 0, Math.PI, true);
-		ctx.closePath();
-		ctx.fillStyle = this.Color;
-		ctx.fill();
+
+	this.Color = WeightChart(this.Weight);
+
+	this.draw = function(ctx){
+		if(this.Wave){
+			ctx.beginPath();
+			ctx.arc(this.loc.X,this.loc.Y,20, 0, Math.PI, true);
+			ctx.closePath();
+			ctx.fillStyle = this.Color;
+			ctx.fill();
+		}
+		else{
+			ctx.fillStyle = this.Color;
+			ctx.fillRect(this.loc.X, this.loc.Y,this.loc.Width, this.loc.Height);
+		}
 	}
-	else{
-		ctx.fillStyle = this.Color;
-		ctx.fillRect(this.loc.X, this.loc.Y,this.loc.Width, this.loc.Height);
+
+	this.move = function(){
+		switch(this.Direction){
+		case 0:
+			this.loc.Y -= 10;
+			break;
+		case 1:
+			this.loc.Y += 10;
+			break;
+		}
 	}
-  }
-  
-  this.move = function(){
-	switch(this.Direction){
-	case 0:
-		this.loc.Y -= 10;
-		break;
-	case 1:
-		this.loc.Y += 10;
-		break;
+
+	this.EndDuration = function(){
+		switch(this.Direction){
+		case 0:
+			if(this.loc.Y < this.Duration)
+				return true;
+			break;
+		case 1:
+			if(this.loc.Y > this.Duration)
+				return true;
+			break;
+		}
+		return false;
 	}
-  }
-  
-  this.EndDuration = function(){
-	switch(this.Direction){
-	case 0:
-		if(this.loc.Y < this.Duration)
-			return true;
-		break;
-	case 1:
-		if(this.loc.Y > this.Duration)
-			return true;
-		break;
-	}
-	return false;
-  }
-  
 }
