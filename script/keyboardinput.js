@@ -10,15 +10,16 @@ function KeyboardController(keys, repeat) {
         var key= (event || window.event).keyCode;
         if (!(key in keys)){		
 			if(key == 32)
-				switch(gameState){
+				switch(theGame.gameState){
 				case 'PreRun':
-					StartGame();
+					theGame.startGame();
 					break;
 				case 'Run':
-					PlayerShoot();
+                    console.log('shoot');
+					theGame.playerShoot();
 					break;
 				case 'GameOver':
-					StartGame();
+					theGame.startGame();
 					break;
 				}
 			else
