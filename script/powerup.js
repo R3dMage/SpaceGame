@@ -28,7 +28,13 @@ function powerup(x, y){
 		this.Letter = 'W';
 	}
 
-	this.draw = function(){
+	this.draw = function(ctx){
+		if(debugCollisions){
+			ctx.strokeStyle = 'White';
+			ctx.strokeRect(this.loc.X, this.loc.Y, this.loc.Width, this.loc.Height);
+			return;
+		}
+		
 		switch(this.Letter){
 		case 'M':
 			this.Color = '#AA3333';
