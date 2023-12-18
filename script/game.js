@@ -4,6 +4,7 @@ function game(){
 	this.lives = 5;
 	this.level = 1;
 	this.kills = 0;
+	this.frameNumber = 0;
 	this.player = new player();
 	this.enemies = [];
 	this.missiles = [];
@@ -54,12 +55,13 @@ function game(){
 		this.score = 0;
 		this.lives = 5;
 		this.level = 1;
+		this.frameNumber = 0;
 		this.player = new player();
 		this.gameState = 'Run';
 	}
 
-	this.playGame = function(){		
-		X = Math.random() * 1000;
+	this.playGame = function(){
+		let X = Math.random() * 1000;
 		if(this.enemies.length < 5 && X > 990 ){
 			this.enemies.push(new swooper((Math.random() * 400 + 100), Math.random() * 50, this.level, this.level));
 		}
@@ -240,7 +242,7 @@ function game(){
 	}
 
 	this.playerShoot = function(){
-		if(!this.player.Exploding){
+		if(!this.player.Exploding && this.player.canShoot(this.frameNumber)){
 			if(this.player.DualCannon){
 				this.missiles.push(new missile(this.player.loc.X + 2, this.player.loc.Y, this.player.WeaponWeight, 0, this.player.WaveCannon));
 				this.missiles.push(new missile(this.player.loc.X + 12, this.player.loc.Y, this.player.WeaponWeight, 0, this.player.WaveCannon));
@@ -251,7 +253,22 @@ function game(){
 	
 	}
 
+	this.spacePressed = function(){
+		switch(this.gameState){
+		case 'PreRun':
+			this.startGame();
+			break;
+		case 'Run':
+			this.playerShoot();
+			break;
+		case 'GameOver':
+			this.startGame();
+			break;
+		}
+	}
+
 	this.gameLoop = function(){
+		this.frameNumber += 1;
 		switch (this.gameState){
 		case "PreRun":
 				this.preGame();
@@ -275,7 +292,8 @@ function pad(num) {
 KeyboardController({37: function() {theGame.player.moveLeft();},
 					38: function() {theGame.player.moveUp();},
 					39: function() {theGame.player.moveRight();},
-					40: function() {theGame.player.moveDown();}},20);
+					40: function() {theGame.player.moveDown();},
+					32: function() {theGame.spacePressed()}},20);
 
 function DisplayHighScores(){
 	Request = new XMLHttpRequest();

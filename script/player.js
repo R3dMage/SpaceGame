@@ -6,6 +6,7 @@ function player(){
 	this.WaveCannon = false;
 	this.DualCannon = false;
 	this.WeaponWeight = 1;
+	this.nextShot = 10;
 
 // Shields
 	this.Shields = 0;
@@ -40,6 +41,14 @@ function player(){
 			this.loc.X = x;
 			this.loc.Y = y;
 		}
+	}
+
+	this.canShoot = function(currentFrame){
+		if (currentFrame >= this.nextShot){
+			this.nextShot = currentFrame + 15;
+			return true;
+		}
+		return false;
 	}
 	
 	this.getMissileType = function(){
