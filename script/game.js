@@ -251,6 +251,20 @@ function game(){
 	
 	}
 
+	this.spacePressed = function(){
+		switch(this.gameState){
+		case 'PreRun':
+			this.startGame();
+			break;
+		case 'Run':
+			this.playerShoot();
+			break;
+		case 'GameOver':
+			this.startGame();
+			break;
+		}
+	}
+
 	this.gameLoop = function(){
 		switch (this.gameState){
 		case "PreRun":
@@ -275,7 +289,8 @@ function pad(num) {
 KeyboardController({37: function() {theGame.player.moveLeft();},
 					38: function() {theGame.player.moveUp();},
 					39: function() {theGame.player.moveRight();},
-					40: function() {theGame.player.moveDown();}},20);
+					40: function() {theGame.player.moveDown();},
+					32: function() {theGame.spacePressed()}},20);
 
 function DisplayHighScores(){
 	Request = new XMLHttpRequest();

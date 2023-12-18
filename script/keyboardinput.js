@@ -8,23 +8,6 @@ function KeyboardController(keys, repeat) {
     //
     document.onkeydown= function(event) {
         var key= (event || window.event).keyCode;
-        if (!(key in keys)){		
-			if(key == 32)
-				switch(theGame.gameState){
-				case 'PreRun':
-					theGame.startGame();
-					break;
-				case 'Run':
-                    console.log('shoot');
-					theGame.playerShoot();
-					break;
-				case 'GameOver':
-					theGame.startGame();
-					break;
-				}
-			else
-				return true;
-		}
         if (!(key in timers)) {
             timers[key]= null;
 			try{
