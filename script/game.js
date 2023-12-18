@@ -4,6 +4,7 @@ function game(){
 	this.lives = 5;
 	this.level = 1;
 	this.kills = 0;
+	this.frameNumber = 0;
 	this.player = new player();
 	this.enemies = [];
 	this.missiles = [];
@@ -54,12 +55,13 @@ function game(){
 		this.score = 0;
 		this.lives = 5;
 		this.level = 1;
+		this.frameNumber = 0;
 		this.player = new player();
 		this.gameState = 'Run';
 	}
 
-	this.playGame = function(){		
-		X = Math.random() * 1000;
+	this.playGame = function(){
+		let X = Math.random() * 1000;
 		if(this.enemies.length < 5 && X > 990 ){
 			this.enemies.push(new swooper((Math.random() * 400 + 100), Math.random() * 50, this.level, this.level));
 		}
@@ -266,6 +268,7 @@ function game(){
 	}
 
 	this.gameLoop = function(){
+		this.frameNumber += 1;
 		switch (this.gameState){
 		case "PreRun":
 				this.preGame();
