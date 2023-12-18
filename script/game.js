@@ -242,7 +242,7 @@ function game(){
 	}
 
 	this.playerShoot = function(){
-		if(!this.player.Exploding){
+		if(!this.player.Exploding && this.player.canShoot(this.frameNumber)){
 			if(this.player.DualCannon){
 				this.missiles.push(new missile(this.player.loc.X + 2, this.player.loc.Y, this.player.WeaponWeight, 0, this.player.WaveCannon));
 				this.missiles.push(new missile(this.player.loc.X + 12, this.player.loc.Y, this.player.WeaponWeight, 0, this.player.WaveCannon));
