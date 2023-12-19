@@ -14,7 +14,7 @@ jobs:
     - name: 📂 Sync Files
       uses: SamKirkland/web-deploy@v1
       with:
-        target-server: corbett.dreamhost.com
+        target-server: spacegame.jrisi.com
         remote-user: dh_qmugvr
         private-ssh-key: ${{ secrets.SSH_KEY }}
         destination-path: ~/spacegame.jrisi.com/
