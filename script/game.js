@@ -16,11 +16,11 @@ function game(){
 	this.height = 720;
 	this.background = new background(4, this.height, this.width);
 	this.background.initCircles();	
-	this.c = document.getElementById('c');
-	this.ctx = c.getContext('2d');
-	this.c.top = 150;
-	this.c.width = this.width + 110;
-	this.c.height = this.height;
+	this.gameCanvas = document.getElementById('gameCanvas');
+	this.ctx = this.gameCanvas.getContext('2d');
+	this.gameCanvas.top = 150;
+	this.gameCanvas.width = this.width + 110;
+	this.gameCanvas.height = this.height;
 	this.sideStatus = new sideStatusDisplay(500, 0, 110, 720);
 
 	this.clear = function(){
