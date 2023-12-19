@@ -16,11 +16,11 @@ function game(){
 	this.height = 720;
 	this.background = new background(4, this.height, this.width);
 	this.background.initCircles();	
-	this.c = document.getElementById('c');
-	this.ctx = c.getContext('2d');
-	this.c.top = 150;
-	this.c.width = this.width + 110;
-	this.c.height = this.height;
+	this.gameCanvas = document.getElementById('gameCanvas');
+	this.ctx = this.gameCanvas.getContext('2d');
+	this.gameCanvas.top = 150;
+	this.gameCanvas.width = this.width + 110;
+	this.gameCanvas.height = this.height;
 	this.sideStatus = new sideStatusDisplay(500, 0, 110, 720);
 
 	this.clear = function(){
@@ -39,7 +39,7 @@ function game(){
 		this.ctx.textAlign = 'center';
 		this.ctx.fillText("Alien Attack!", 500/2, 200);
 		
-		this.ctx.font = '10px Arial';
+		this.ctx.font = '20px Arial';
 		this.ctx.fillText('Press SPACE to play',250, 500);
 		
 		this.background.moveCircles(1);

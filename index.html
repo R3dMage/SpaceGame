@@ -3,21 +3,34 @@
 	<head>
 		<title>Alien Attack!</title>
 	<style type="text/css" media="all">
-	/* @import "../jrisi.css"; */
 	body {
 		margin:0px;
 		padding:0px;
 		text-align:center;
 	}
 	
-	canvas{
+	canvas#gameCanvas {
 		outline:0;
-	position: absolute;
-	left: 200px;
-	top: 100px;
+		position: absolute;
+		left: 200px;
+		top: 100px;
 		border:1px solid #000;
 		margin-left: auto;
 		margin-right: auto;
+	}
+
+	div#instructions{
+		position: absolute;
+		left: 200px;
+		top: 850px;
+		width: 610px;
+		height: 200px;
+		background-color: #000044;
+		color: #FFFFFF;
+		font-family: "Helvetica", Courier, monospace;
+		font-size: 20px;
+		text-align: center;
+		vertical-align: middle;
 	}
 	</style>
 	</head>
@@ -27,7 +40,7 @@
 	</div>
 	
 	<body BGCOLOR= #000044>
-		<canvas id='c'></canvas>
+		<canvas id='gameCanvas'></canvas>
 		<script src="script/enemymaker.js"></script>
 		<script src="script/position.js"></script>
 		<script src="script/WeightChart.js"></script>
@@ -39,5 +52,8 @@
 		<script src="script/background.js"></script>
 		<script src="script/sideStatusDisplay.js"></script>
 		<script src="script/game.js"></script>
+		<div id="instructions">
+			<H1>Use Arrow keys to move and Space Bar to shoot</H1>
+		</div>
 	</body>
 </html>
