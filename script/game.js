@@ -40,7 +40,7 @@ function game(){
 		this.ctx.fillText("Alien Attack!", 500/2, 200);
 		
 		this.ctx.font = '20px Arial';
-		this.ctx.fillText('Press SPACE to play',250, 500);
+		this.ctx.fillText('Shoot to start',250, 500);
 		
 		this.background.move(1);
 		this.background.draw(this.ctx);
@@ -221,8 +221,8 @@ function game(){
 		this.ctx.textAlign = 'center';
 		this.ctx.fillText("GAME OVER!", 500/2, 200);
 		
-		this.ctx.font = '10px Arial';
-		this.ctx.fillText('Press SPACE to play',250, 500);
+		this.ctx.font = '20px Arial';
+		this.ctx.fillText('Shoot to start',250, 500);
 		
 		this.background.move(1);
 		this.background.draw(this.ctx);
