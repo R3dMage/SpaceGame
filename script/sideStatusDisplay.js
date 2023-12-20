@@ -28,6 +28,10 @@ function sideStatusDisplay(x, y, width, height){
 
 		let bottomY = 690
 		let spacer = 25;
+
+		ctx.fillStyle = '#000000';
+		ctx.textAlign = 'center';
+		ctx.fillText( '~Power Ups~', 550, bottomY - spacer * 4)
 		this.drawPowerUp(ctx, 'M', new position(505, bottomY - spacer * 3, 20, 20));
 		this.drawPowerUp(ctx, 'D', new position(505, bottomY - spacer * 2, 20, 20));
 		this.drawPowerUp(ctx, 'S', new position(505, bottomY - spacer, 20, 20));
