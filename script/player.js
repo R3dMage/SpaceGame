@@ -35,8 +35,8 @@ function player(){
 			
 			if(y < 0)
 				y = 0;
-			if(y > 720 - this.Height)
-				y = 720 - this.Height;
+			if(y > 720 - this.loc.Height)
+				y = 720 - this.loc.Height;
 				
 			this.loc.X = x;
 			this.loc.Y = y;
