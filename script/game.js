@@ -14,8 +14,8 @@ function game(){
 	this.gameState = 'PreRun';
 	this.width = 500;
 	this.height = 720;
-	this.background = new background(4, this.height, this.width);
-	this.background.initCircles();	
+	this.background = new background(25, this.height, this.width);
+	this.background.initialize();
 	this.gameCanvas = document.getElementById('gameCanvas');
 	this.ctx = this.gameCanvas.getContext('2d');
 	this.gameCanvas.top = 150;
@@ -42,8 +42,8 @@ function game(){
 		this.ctx.font = '20px Arial';
 		this.ctx.fillText('Press SPACE to play',250, 500);
 		
-		this.background.moveCircles(1);
-		this.background.drawCircles(this.ctx);
+		this.background.move(1);
+		this.background.draw(this.ctx);
 		this.sideStatus.draw(this.ctx, this.player, true);
 	
 	}
@@ -80,7 +80,7 @@ function game(){
 	}
 
 	this.moveObjects = function(){
-		this.background.moveCircles(this.level);
+		this.background.move(this.level);
 
 		for (let i = 0; i < this.missiles.length; i++){
 			this.missiles[i].move();
@@ -188,7 +188,7 @@ function game(){
 
 	this.drawObjects = function(){
 		this.clear();
-		this.background.drawCircles(this.ctx);
+		this.background.draw(this.ctx);
 
 		for (let i = 0; i < this.missiles.length; i++){
 			this.missiles[i].draw(this.ctx);
@@ -224,8 +224,8 @@ function game(){
 		this.ctx.font = '10px Arial';
 		this.ctx.fillText('Press SPACE to play',250, 500);
 		
-		this.background.moveCircles(1);
-		this.background.drawCircles(this.ctx);
+		this.background.move(1);
+		this.background.draw(this.ctx);
 		this.sideStatus.draw(this.ctx, this.player, false);
 	
 	}
