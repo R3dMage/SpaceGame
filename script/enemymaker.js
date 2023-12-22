@@ -1,35 +1,56 @@
 var MakerState = {
 	PRODUCE   :  0,
-	WAIT      :  1,};
+	WAIT      :  1,
+    NEXT_LEVEL:  2};
 
-function EnemyMaker(){
+function levelTracker(){
     this.level = 1;
-    this.State = MakerState.PRODUCE;
-    this.AliensProduced = 0;
-    this.Time = new Date();
-	this.AliensInLevel = 10;
-	this.Interval = 6;
+    this.state = MakerState.PRODUCE;
+    this.aliensProduced = 0;
+	this.aliensInLevel = 1;
+	this.interval = 100;
+    this.nextAlienAt = 0;
+    this.startProducingAt = 0;
     
-    this.Process = function(){
-        var T = new Date();
-        switch(this.State)
+    this.Process = function(frameNumber, enemies){
+        switch(this.state)
         {
             case MakerState.PRODUCE:
-                if( (T - this.Time)/1000 >= this.Interval )
+                if( frameNumber >= this.nextAlienAt )
                 {
-                    this.Time = new Date();
-                    Enemies.push(this.getEnemy());
-                    this.AliensProduced += 1;
-                    if( this.AliensProduced == this.AliensInLevel )
+                    enemies.push(this.getEnemy());
+                    this.nextAlienAt = frameNumber + this.interval;
+                    this.aliensProduced += 1;
+                    if( this.aliensProduced == this.aliensInLevel )
                     {
-                        this.State = MakerState.WAIT;
-                        this.AliensProduced = 0;
+                        this.state = MakerState.WAIT;
+                        this.aliensProduced = 0;
                     }
                 }
                 break;
             case MakerState.WAIT:
+                let alive = enemies.some(function(enemy){
+                    return enemy.isDead() == false;
+                });
+
+                if (!alive){
+                    this.state = MakerState.NEXT_LEVEL;
+                    // this.aliensInLevel += 10;
+                    this.startProducingAt = frameNumber + 150;
+                    this.level += 1;
+                }
+                break;
+            case MakerState.NEXT_LEVEL:
+                if (frameNumber >= this.startProducingAt){
+                    this.state = MakerState.PRODUCE;
+                    this.nextAlienAt = frameNumber + this.interval;
+                }
                 break;
         }
+    }
+
+    this.showLevelUp = function(){
+        return this.state == MakerState.NEXT_LEVEL;
     }
     
     this.getEnemy = function(){

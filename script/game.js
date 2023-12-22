@@ -2,7 +2,6 @@
 function game(){
 	this.score = 0;
 	this.lives = 5;
-	this.level = 1;
 	this.kills = 0;
 	this.frameNumber = 0;
 	this.player = new player();
@@ -14,6 +13,7 @@ function game(){
 	this.gameState = 'PreRun';
 	this.width = 500;
 	this.height = 720;
+	this.levelTracker = new levelTracker();
 	this.background = new background(25, this.height, this.width);
 	this.background.initialize();
 	this.gameCanvas = document.getElementById('gameCanvas');
@@ -51,24 +51,22 @@ function game(){
 	this.startGame = function(){
 		this.enemies.splice(0, this.enemies.length);
 		this.missiles.splice(0, this.enemies.length);
+		this.levelTracker = new levelTracker();
 		this.kills = 0;
 		this.score = 0;
 		this.lives = 5;
-		this.level = 1;
 		this.frameNumber = 0;
 		this.player = new player();
 		this.gameState = 'Run';
 	}
 
 	this.playGame = function(){
-		let X = Math.random() * 1000;
-		if(this.enemies.length < 5 && X > 990 ){
-			this.enemies.push(new swooper((Math.random() * 400 + 100), Math.random() * 50, this.level, this.level));
-		}
+		// let X = Math.random() * 1000;
+		// if(this.enemies.length < 5 && X > 990 ){
+		// 	this.enemies.push(new swooper((Math.random() * 400 + 100), Math.random() * 50, this.level, this.level));
+		// }
+		this.levelTracker.Process(this.frameNumber, this.enemies);
 
-		// Handle Level Ups
-		if( this.kills > this.level * 10 )
-				this.level += 1;
 		// Handle dead player
 		if( this.lives <= 0 && !this.player.Exploding ){
 				this.gameState = 'GameOver';
@@ -80,7 +78,7 @@ function game(){
 	}
 
 	this.moveObjects = function(){
-		this.background.move(this.level);
+		this.background.move(this.levelTracker.level);
 
 		for (let i = 0; i < this.missiles.length; i++){
 			this.missiles[i].move();
@@ -104,17 +102,19 @@ function game(){
 		for (let i = 0; i < this.missiles.length; i++){
 			for (let j = 0; j < this.enemies.length; j++){
 				// Check if player hit any bad guys!
+				if (this.enemies[j].isDead())
+					continue;
+
 				if (this.missiles[i].loc.CollidedWith(this.enemies[j].loc)){
 					this.enemies[j].Health -= this.missiles[i].Weight;
 
-					if (this.enemies[j].Health <= 0){
+					if (this.enemies[j].isDead()){
 					// The enemy player hit has died. Get Points!
 						this.score += this.enemies[j].Weight * 100;
 						this.explosions.push(new kaboom(this.enemies[j].loc.X + this.enemies[j].loc.Width / 2, this.enemies[j].loc.Y, 15));
 						if (this.enemies[j].PowerUp){
 							this.powerups.push(new powerup(this.enemies[j].loc.X, this.enemies[j].loc.Y));
 						}
-						enemiesToRemove.push(j);
 						missilesToRemove.push(i);
 						this.kills += 1;
 					}
@@ -127,6 +127,9 @@ function game(){
 
 		for (let i = 0; i < this.enemies.length; i++){
 			// Check if player collided with a bad guy
+			if (this.enemies[i].isDead())
+				continue;
+
 			if( !this.player.Invincible && this.enemies[i].loc.CollidedWith( this.player.loc) ){
 				if (this.player.Shields > 0){
 								this.player.Invincible = true;
@@ -155,8 +158,6 @@ function game(){
 
 		for (let i = 0; i < this.powerups.length; i++){
 			if( this.powerups[i].loc.CollidedWith( this.player.loc) ){
-				// console.log("POWER " + this.powerups[i].loc.X + " " + this.powerups[i].loc.Y);
-				// console.log("PLAYR " + this.player.loc.X + " " + this.player.loc.Y);
 				switch(this.powerups[i].Letter){
 				case 'M':
 					this.player.WeaponWeight += 1;
@@ -175,13 +176,11 @@ function game(){
 				break;
 			}
 			if( this.powerups[i].loc.Y > 720 ){
-				//console.log("Powerup: " + this.powerups[i].Letter);
 				powerupsToRemove.push(i);
 			}
 		}
 
 		missilesToRemove.forEach((element) => this.missiles.splice(element, 1));
-		enemiesToRemove.forEach((element) => this.enemies.splice(element, 1));
 		powerupsToRemove.forEach((element) => this.powerups.splice(element, 1));
 		explosionsToRemove.forEach((element) => this.explosions.splice(element, 1));
 	}
@@ -238,7 +237,14 @@ function game(){
 		ctx.textAlign = 'center';
 		ctx.fillText("Lives: " + this.lives, 250, 15);
 		ctx.textAlign = 'left';
-		ctx.fillText("Level: " + this.level, 0, 15);
+		ctx.fillText("Level: " + this.levelTracker.level, 0, 15);
+
+		if(this.levelTracker.showLevelUp()){
+			ctx.fillStyle = "Yellow";
+			ctx.font = "40px Arial";
+			ctx.textAlign = 'center';
+			ctx.fillText("Level Up!", 500/2, 200);
+		}
 	}
 
 	this.playerShoot = function(){
