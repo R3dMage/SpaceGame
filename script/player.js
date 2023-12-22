@@ -80,11 +80,12 @@ function player(){
 				ctx.lineTo(drawX, drawY);
 				ctx.closePath();
 				if(this.Invincible){
-					ctx.font = '10px Arial';
-					ctx.fillStyle = 'rgba(142,214,255,' + this.InvincibleTime * 0.013 + ')';
-					ctx.fillText(75 - this.InvincibleTime, this.loc.getX1() - 5, this.loc.Y + 10);
+					let alpha = 255;
+					if(this.InvincibleTime % 2 == 0)
+						alpha = 0;
+					ctx.fillStyle = 'rgba(142,214,255,' + alpha + ')';
 					this.InvincibleTime += 1;
-					if(this.InvincibleTime >= 75){
+					if(this.InvincibleTime >= 100){
 						this.InvincibleTime = 0;
 						this.Invincible = false;
 					}
