@@ -23,6 +23,9 @@ function swooper(x, y, health, weight){
 	this.PowerUp = true;
 
 	this.draw = function(ctx){
+		if (this.Health <= 0)
+			return;
+
 		if (debugCollisions){
 			ctx.strokeStyle = 'White';
 			ctx.strokeRect(this.loc.X, this.loc.Y, this.loc.Width, this.loc.Height);
@@ -52,6 +55,9 @@ function swooper(x, y, health, weight){
 	}
 
   this.move = function(){
+	if (this.isDead())
+		return;
+
 	switch(this.State){
 		case SwooperState.SWOOP:
 			if (this.moveRight){
@@ -83,7 +89,10 @@ function swooper(x, y, health, weight){
 			this.loc.Y += 15;
 			if (this.loc.Y > this.OrigY + 300){
 				this.OrigY += 100;
-				this.State = SwooperState.RETREAT;}
+				if (this.loc.Y > 600)
+					this.OrigY = 50;
+				this.State = SwooperState.RETREAT;
+			}
 			break;
 		case SwooperState.RETREAT:
 			this.loc.Y -= 5;
@@ -91,5 +100,12 @@ function swooper(x, y, health, weight){
 				this.State = SwooperState.SWOOP;
 			break;
 		}
+	}
+
+	this.isDead = function(){
+		if (this.Health <= 0)
+			return true;
+		
+		return false;
 	}
 }
