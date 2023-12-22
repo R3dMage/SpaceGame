@@ -7,7 +7,7 @@ function levelTracker(){
     this.level = 1;
     this.state = MakerState.PRODUCE;
     this.aliensProduced = 0;
-	this.aliensInLevel = 1;
+	this.aliensInLevel = 10;
 	this.interval = 100;
     this.nextAlienAt = 0;
     this.startProducingAt = 0;
