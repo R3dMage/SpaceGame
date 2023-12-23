@@ -107,6 +107,7 @@ function game(){
 
 				if (this.missiles[i].loc.CollidedWith(this.enemies[j].loc)){
 					this.enemies[j].Health -= this.missiles[i].Weight;
+					missilesToRemove.push(i);
 
 					if (this.enemies[j].isDead()){
 					// The enemy player hit has died. Get Points!
@@ -115,7 +116,6 @@ function game(){
 						if (this.enemies[j].PowerUp){
 							this.powerups.push(new powerup(this.enemies[j].loc.X, this.enemies[j].loc.Y));
 						}
-						missilesToRemove.push(i);
 						this.kills += 1;
 					}
 				}
