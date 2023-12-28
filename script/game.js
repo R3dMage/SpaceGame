@@ -247,8 +247,13 @@ function game(){
 		}
 	}
 
-	this.playerShoot = function(){
-		if(!this.player.Exploding && this.player.canShoot(this.frameNumber)){
+	this.playerShoot = function(event){
+		if (event == "onkeyup")
+		{
+			this.player.resetShootDelay();
+			return;
+		}
+		if(this.player.canShoot(this.frameNumber)){
 			if(this.player.DualCannon){
 				this.missiles.push(new missile(this.player.loc.X + 2, this.player.loc.Y, this.player.WeaponWeight, 0, this.player.WaveCannon));
 				this.missiles.push(new missile(this.player.loc.X + 12, this.player.loc.Y, this.player.WeaponWeight, 0, this.player.WaveCannon));
@@ -259,13 +264,13 @@ function game(){
 	
 	}
 
-	this.spacePressed = function(){
+	this.spacePressed = function(event){
 		switch(this.gameState){
 		case 'PreRun':
 			this.startGame();
 			break;
 		case 'Run':
-			this.playerShoot();
+			this.playerShoot(event);
 			break;
 		case 'GameOver':
 			this.startGame();
@@ -299,7 +304,7 @@ KeyboardController({37: function() {theGame.player.moveLeft();},
 					38: function() {theGame.player.moveUp();},
 					39: function() {theGame.player.moveRight();},
 					40: function() {theGame.player.moveDown();},
-					32: function() {theGame.spacePressed()}},20);
+					32: function(event) {theGame.spacePressed(event)}},20);
 
 function DisplayHighScores(){
 	Request = new XMLHttpRequest();

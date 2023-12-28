@@ -6,7 +6,8 @@ function player(){
 	this.WaveCannon = false;
 	this.DualCannon = false;
 	this.WeaponWeight = 1;
-	this.nextShot = 10;
+	this.readyToShoot = true;
+	this.shotDelay = 10;
 
 // Shields
 	this.Shields = 0;
@@ -43,12 +44,12 @@ function player(){
 		}
 	}
 
-	this.canShoot = function(currentFrame){
-		if (currentFrame >= this.nextShot){
-			this.nextShot = currentFrame + 15;
+	this.canShoot = function(frameNumber){
+		if (frameNumber > this.shotDelay && this.readyToShoot && !this.Exploding){
+			this.readyToShoot = false;
 			return true;
 		}
-		return false;
+
 	}
 	
 	this.getMissileType = function(){
@@ -146,6 +147,10 @@ function player(){
 
 	this.moveDown = function(){
 		this.setPosition(this.loc.X, this.loc.Y + this.speed);
+	}
+
+	this.resetShootDelay = function(){
+		this.readyToShoot = true;
 	}
 }
 
