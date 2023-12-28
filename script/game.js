@@ -4,6 +4,8 @@ function game(){
 	this.lives = 5;
 	this.kills = 0;
 	this.frameNumber = 0;
+	this.gameOverDelay = 100;
+	this.currentGameOverDelay = 0;
 	this.player = new player();
 	this.enemies = [];
 	this.missiles = [];
@@ -70,6 +72,7 @@ function game(){
 		// Handle dead player
 		if( this.lives <= 0 && !this.player.Exploding ){
 				this.gameState = 'GameOver';
+				this.currentGameOverDelay = this.frameNumber + this.gameOverDelay;
 		}
 
 		this.moveObjects();
@@ -220,8 +223,10 @@ function game(){
 		this.ctx.textAlign = 'center';
 		this.ctx.fillText("GAME OVER!", 500/2, 200);
 		
-		this.ctx.font = '20px Arial';
-		this.ctx.fillText('Shoot to start',250, 500);
+		if (this.frameNumber > this.currentGameOverDelay){
+			this.ctx.font = '20px Arial';
+			this.ctx.fillText('Shoot to start',250, 500);
+		}
 		
 		this.background.move(1);
 		this.background.draw(this.ctx);
@@ -273,7 +278,8 @@ function game(){
 			this.playerShoot(event);
 			break;
 		case 'GameOver':
-			this.startGame();
+			if (this.frameNumber > this.currentGameOverDelay)
+				this.startGame();
 			break;
 		}
 	}
