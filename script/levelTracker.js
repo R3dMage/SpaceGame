@@ -54,8 +54,9 @@ function levelTracker(){
     }
     
     this.getEnemy = function(){
-        //if ( this.level == 1 )
-            return new swooper((Math.random() * 500), Math.random() * 50, this.level, this.level);
-        
+        if ( this.level % 2 == 0 )
+            return new demon((Math.random() * 500), Math.random() * 50, this.level, this.level);
+        else
+            return new swooper((Math.random() * 400 + 100), Math.random() * 50, this.level, this.level);
     }
 }
