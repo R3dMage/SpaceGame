@@ -16,7 +16,7 @@ function KeyboardController(keys, repeat) {
 		if (!(key in timers)) {
 			timers[key]= null;
 			try{
-				keys[key]();
+				keys[key]("onkeydown");
 			}
 			catch(e){}
 			if (repeat!==0)
@@ -29,6 +29,10 @@ function KeyboardController(keys, repeat) {
 	//
 	document.onkeyup= function(event) {
 		var key= (event || window.event).keyCode;
+		if (key in keys)
+		{
+			keys[key]("onkeyup")
+		}
 		if (key in timers) {
 			if (timers[key]!==null)
 				clearInterval(timers[key]);
