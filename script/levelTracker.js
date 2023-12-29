@@ -5,6 +5,7 @@ var MakerState = {
 
 function levelTracker(){
     this.level = 1;
+    this.phase = 1;
     this.state = MakerState.PRODUCE;
     this.aliensProduced = 0;
 	this.aliensInLevel = 10;
