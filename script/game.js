@@ -81,7 +81,7 @@ function game(){
 	}
 
 	this.moveObjects = function(){
-		this.background.move(this.levelTracker.level);
+		this.background.move(this.levelTracker.levelNumber);
 
 		for (let i = 0; i < this.missiles.length; i++){
 			this.missiles[i].move();
@@ -242,7 +242,7 @@ function game(){
 		ctx.textAlign = 'center';
 		ctx.fillText("Lives: " + this.lives, 250, 15);
 		ctx.textAlign = 'left';
-		ctx.fillText("Level: " + this.levelTracker.level, 0, 15);
+		ctx.fillText("Level: " + this.levelTracker.levelNumber, 0, 15);
 
 		if(this.levelTracker.showLevelUp()){
 			ctx.fillStyle = "Yellow";
