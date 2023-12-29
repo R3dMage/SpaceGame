@@ -185,7 +185,7 @@ function demon(x, y, health, weight) {
 	}
 
 	this.isOutofBounds = function(){
-		if (this.loc.X < 0 || this.loc.X > 500 || this.loc.Y < 0 || this.loc.Y > 500)
+		if (this.loc.X < 0 || this.loc.X > 500 || this.loc.Y < 0 || this.loc.Y > 700)
 			return true;
 		
 		return false;
