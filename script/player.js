@@ -170,17 +170,21 @@ function missile(x, y, target, speed, weight, isWave){
 	this.Color = WeightChart(this.weight);
 
 	this.draw = function(ctx){
+		ctx.save();
+		ctx.translate(this.loc.X, this.loc.Y);
+		ctx.rotate(Math.atan2(this.target.Y - this.loc.Y, this.target.X - this.loc.X) + Math.PI / 2);
 		if(this.wave){
 			ctx.beginPath();
-			ctx.arc(this.loc.X,this.loc.Y,20, 0, Math.PI, true);
+			ctx.arc(this.loc.Width / -2, this.loc.Height / -2, 20, 0, Math.PI, true);
 			ctx.closePath();
 			ctx.fillStyle = this.Color;
 			ctx.fill();
 		}
 		else{
 			ctx.fillStyle = this.Color;
-			ctx.fillRect(this.loc.X, this.loc.Y,this.loc.Width, this.loc.Height);
+			ctx.fillRect(this.loc.Width / -2, this.loc.Height / -2, this.loc.Width, this.loc.Height);
 		}
+		ctx.restore();
 	}
 
 	this.move = function(){
