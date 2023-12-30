@@ -4,8 +4,9 @@ function levelFactory(){
 
 	this.create = function(levelNumber){
 		let phases = [];
-		phases.push(new phase());
-		phases.push(new phase());
+		phases.push(new phase(10, 100));
+		phases.push(new phase(10, 50));
+		phases.push(new phase(3, 50));
 		return new level(phases, levelNumber);
 	}
 }
@@ -41,16 +42,20 @@ function level(phases, levelNumber){
 	}
 
 	this.getEnemy = function(){
-		if (this.currentPhase % 2 == 0)
-			return new swooper((Math.random() * 300 + 100), Math.random() * 50, this.number, this.number);
-		else
-			return new demon((Math.random() * 350 + 50), Math.random() * 50, this.number, this.number);
+		switch(this.currentPhase){
+			case 0:
+				return new swooper((Math.random() * 350 + 50), Math.random() * 50, this.number, this.number);
+			case 1:
+				return new demon((Math.random() * 350 + 50), Math.random() * 50, this.number, this.number);
+			case 2:
+				return new predator((Math.random() * 350 + 50), Math.random() * 50, this.number, this.number);
+		}
 	}
 }
 
-function phase(){
-	this.aliensInPhase = 10;
-	this.interval = 100;
+function phase(numberOfAliens, interval){
+	this.aliensInPhase = numberOfAliens;
+	this.interval = interval;
 	this.nextAlien = 0;
 	this.aliensProduced = 0;
 
