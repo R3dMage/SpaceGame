@@ -9,6 +9,7 @@ function game(){
 	this.player = new player();
 	this.enemies = [];
 	this.missiles = [];
+	this.enemyProjectiles = [];
 	this.explosions = [];
 	this.powerups = [];
 	this.gLoop;
@@ -87,6 +88,10 @@ function game(){
 			this.missiles[i].move();
 		}
 
+		for (let i = 0; i < this.enemyProjectiles.length; i++){
+			this.enemyProjectiles[i].move();
+		}
+
 		for (let i = 0; i < this.enemies.length; i++){
 			this.enemies[i].move();
 		}
@@ -98,6 +103,7 @@ function game(){
 
 	this.checkForCollisions = function(){
 		let missilesToRemove = [];
+		let enemyProjectilesToRemove = [];
 		let enemiesToRemove = [];
 		let powerupsToRemove = [];
 		let explosionsToRemove = [];
@@ -109,7 +115,7 @@ function game(){
 					continue;
 
 				if (this.missiles[i].loc.CollidedWith(this.enemies[j].loc)){
-					this.enemies[j].Health -= this.missiles[i].Weight;
+					this.enemies[j].Health -= this.missiles[i].weight;
 					missilesToRemove.push(i);
 
 					if (this.enemies[j].isDead()){
@@ -124,7 +130,7 @@ function game(){
 				}
 			}
 
-			if(this.missiles[i].EndDuration())
+			if(this.missiles[i].endDuration())
 				missilesToRemove.push(i);
 		}
 
@@ -146,12 +152,32 @@ function game(){
 								this.lives -= 1;
 						}
 			}
-			// if (this.enemies[i].fire()){
-			// 	this.missiles.push(new missile(this.enemies[i].loc.X + (this.enemies[i].loc.getX1()/2), this.enemies[i].loc.getY1(), this.enemies[i].Weight, 1))
-			//}
+			if (this.enemies[i].canShoot()){
+				let projectile = this.enemies[i].getProjectile(this.player.loc);
+				this.enemyProjectiles.push(projectile);
+			}
 			// If enemy gets to the bottom stop thinking about him
 			if (this.enemies[i].loc.Y > 720)
 				enemiesToRemove.push(i);
+		}
+
+		for(let i = 0; i < this.enemyProjectiles.length; i++){
+			if(this.enemyProjectiles[i].loc.CollidedWith(this.player.loc)){
+				if (this.player.Shields > 0){
+					this.player.Invincible = true;
+					this.player.Shields -= 1;
+				}
+				else{
+					this.player.Exploding = true;
+					this.player.Invincible = true;
+					this.player.died();
+					this.lives -= 1;
+				}
+				enemyProjectilesToRemove.push(i);
+			}
+
+			if(this.enemyProjectiles[i].endDuration())
+				enemyProjectilesToRemove.push(i);
 		}
 
 		for (let i = 0; i < this.explosions.length; i++){
@@ -184,6 +210,7 @@ function game(){
 		}
 
 		missilesToRemove.forEach((element) => this.missiles.splice(element, 1));
+		enemyProjectilesToRemove.forEach((element) => this.enemyProjectiles.splice(element, 1));
 		powerupsToRemove.forEach((element) => this.powerups.splice(element, 1));
 		explosionsToRemove.forEach((element) => this.explosions.splice(element, 1));
 	}
@@ -194,6 +221,10 @@ function game(){
 
 		for (let i = 0; i < this.missiles.length; i++){
 			this.missiles[i].draw(this.ctx);
+		}
+
+		for (let i = 0; i < this.enemyProjectiles.length; i++){
+			this.enemyProjectiles[i].draw(this.ctx);
 		}
 
 		for (let i = 0; i < this.enemies.length; i++){
@@ -259,12 +290,14 @@ function game(){
 			return;
 		}
 		if(this.player.canShoot(this.frameNumber)){
+			let shotSpeed = 50;
+			let target = new position(this.player.loc.X, -10, 0, 0);
 			if(this.player.DualCannon){
-				this.missiles.push(new missile(this.player.loc.X + 2, this.player.loc.Y, this.player.WeaponWeight, 0, this.player.WaveCannon));
-				this.missiles.push(new missile(this.player.loc.X + 12, this.player.loc.Y, this.player.WeaponWeight, 0, this.player.WaveCannon));
+				this.missiles.push(new missile(this.player.loc.X + 2, this.player.loc.Y, target, shotSpeed, this.player.WeaponWeight, this.player.WaveCannon));
+				this.missiles.push(new missile(this.player.loc.X + 12, this.player.loc.Y, target, shotSpeed, this.player.WeaponWeight, this.player.WaveCannon));
 			}
 			else
-				this.missiles.push(new missile(this.player.loc.X + 8, this.player.loc.Y, this.player.WeaponWeight, 0, this.player.WaveCannon));
+				this.missiles.push(new missile(this.player.loc.X + 8, this.player.loc.Y, target, shotSpeed, this.player.WeaponWeight, this.player.WaveCannon));
 		}
 	
 	}

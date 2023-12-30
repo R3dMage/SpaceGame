@@ -154,63 +154,48 @@ function player(){
 	}
 }
 
-function missile(x, y, weight, direction, isWave){
+function missile(x, y, target, speed, weight, isWave){
 	if(isWave)
 		this.loc = new position(x, y, 40, 10);
 	else
 		this.loc = new position(x, y, 3, 9);
-	this.Weight = weight;
-	this.Direction = direction;
-	this.Wave = isWave;
+	this.target = target;
+	this.weight = weight;
+	this.speed = speed;
+	this.incrementX = (target.X - this.loc.X) / speed;
+	this.incrementY = (target.Y - this.loc.Y) / speed;
+	this.wave = isWave;
 	this.alive = true;
-  
-  switch(this.Direction){
-  case 0:
-	this.Duration = y - 400;
-	break;
-  case 1:
-	this.Duration = y + 400;
-	break;
-  }
 
-	this.Color = WeightChart(this.Weight);
+	this.Color = WeightChart(this.weight);
 
 	this.draw = function(ctx){
-		if(this.Wave){
+		ctx.save();
+		ctx.translate(this.loc.X, this.loc.Y);
+		ctx.rotate(Math.atan2(this.target.Y - this.loc.Y, this.target.X - this.loc.X) + Math.PI / 2);
+		if(this.wave){
 			ctx.beginPath();
-			ctx.arc(this.loc.X,this.loc.Y,20, 0, Math.PI, true);
+			ctx.arc(this.loc.Width / -2, this.loc.Height / -2, 20, 0, Math.PI, true);
 			ctx.closePath();
 			ctx.fillStyle = this.Color;
 			ctx.fill();
 		}
 		else{
 			ctx.fillStyle = this.Color;
-			ctx.fillRect(this.loc.X, this.loc.Y,this.loc.Width, this.loc.Height);
+			ctx.fillRect(this.loc.Width / -2, this.loc.Height / -2, this.loc.Width, this.loc.Height);
 		}
+		ctx.restore();
 	}
 
 	this.move = function(){
-		switch(this.Direction){
-		case 0:
-			this.loc.Y -= 10;
-			break;
-		case 1:
-			this.loc.Y += 10;
-			break;
-		}
+		this.loc.X += this.incrementX;
+		this.loc.Y += this.incrementY;
 	}
 
-	this.EndDuration = function(){
-		switch(this.Direction){
-		case 0:
-			if(this.loc.Y < this.Duration)
-				return true;
-			break;
-		case 1:
-			if(this.loc.Y > this.Duration)
-				return true;
-			break;
-		}
+	this.endDuration = function(){
+		if(this.loc.Y < -5 || this.loc.Y > 720 || this.loc.X < -5 || this.loc.X > 500)
+			return true;
+
 		return false;
 	}
 }
