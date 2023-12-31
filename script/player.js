@@ -155,8 +155,10 @@ function player(){
 		let offset = this.Wingspan;
 		
 		if(this.DualCannon){
-			projectiles.push(new missile(this.loc.X + 2 + offset, this.loc.Y, target, shotSpeed, this.WeaponWeight));
-			projectiles.push(new missile(this.loc.X + 12 + offset, this.loc.Y, target, shotSpeed, this.WeaponWeight));
+			target = new position(this.loc.X + 2, -10, 0, 0);
+			projectiles.push(new missile(this.loc.X + 2, this.loc.Y, target, shotSpeed, this.WeaponWeight));
+			target = new position(this.loc.X + 12, -10, 0, 0);
+			projectiles.push(new missile(this.loc.X + 12, this.loc.Y, target, shotSpeed, this.WeaponWeight));
 		}
 		else{
 			projectiles.push(new missile(this.loc.X + offset, this.loc.Y, target, shotSpeed, this.WeaponWeight));
