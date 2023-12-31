@@ -152,6 +152,26 @@ function player(){
 	this.resetShootDelay = function(){
 		this.readyToShoot = true;
 	}
+
+	this.getProjectiles = function(){
+		let projectiles = [];
+		let shotSpeed = 50;
+		let target = new position(this.loc.X, -10, 0, 0);
+		let offset = this.Wingspan;
+
+		if(this.WaveCannon){
+			offset -= 20;
+		}
+		
+		if(this.DualCannon){
+			projectiles.push(new missile(this.loc.X + 2 + offset, this.loc.Y, target, shotSpeed, this.WeaponWeight, this.WaveCannon));
+			projectiles.push(new missile(this.loc.X + 12 + offset, this.loc.Y, target, shotSpeed, this.WeaponWeight, this.WaveCannon));
+		}
+		else{
+			projectiles.push(new missile(this.loc.X + offset, this.loc.Y, target, shotSpeed, this.WeaponWeight, this.WaveCannon));
+		}
+		return projectiles;
+	}
 }
 
 function missile(x, y, target, speed, weight, isWave){
