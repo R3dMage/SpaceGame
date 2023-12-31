@@ -139,7 +139,7 @@ function demon(x, y, health, weight) {
 		if (this.inProximityOfDestination() || this.isOutofBounds()){
 			this.destination = this.getDestination();
 			this.slope = (this.destination.Y - this.loc.Y) / (this.destination.X - this.loc.X);
-			this.increment = (this.destination.X - this.loc.X) / 100;
+			this.increment = (this.destination.X - this.loc.X) / 50;
 		}
 	}
 
