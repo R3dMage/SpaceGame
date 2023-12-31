@@ -289,15 +289,10 @@ function game(){
 			this.player.resetShootDelay();
 			return;
 		}
+
 		if(this.player.canShoot(this.frameNumber)){
-			let shotSpeed = 50;
-			let target = new position(this.player.loc.X, -10, 0, 0);
-			if(this.player.DualCannon){
-				this.missiles.push(new missile(this.player.loc.X + 2, this.player.loc.Y, target, shotSpeed, this.player.WeaponWeight, this.player.WaveCannon));
-				this.missiles.push(new missile(this.player.loc.X + 12, this.player.loc.Y, target, shotSpeed, this.player.WeaponWeight, this.player.WaveCannon));
-			}
-			else
-				this.missiles.push(new missile(this.player.loc.X + 8, this.player.loc.Y, target, shotSpeed, this.player.WeaponWeight, this.player.WaveCannon));
+			let projectiles = this.player.getProjectiles();
+			projectiles.forEach((element) => this.missiles.push(element));
 		}
 	
 	}
