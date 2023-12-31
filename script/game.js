@@ -197,9 +197,6 @@ function game(){
 				case 'S':
 					this.player.Shields += 1;
 					break;
-				case 'W':
-					this.player.WaveCannon = true;
-					break;
 				}
 				powerupsToRemove.push(i);
 				break;

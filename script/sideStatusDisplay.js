@@ -54,10 +54,6 @@ function sideStatusDisplay(x, y, width, height){
 			color = '#116611';
 			description = 'Shield Up';
 			break;
-		case 'W':
-			color = '#555500';
-			description = 'Wave Shot';
-			break;
 		}
 
 		ctx.fillStyle = color;

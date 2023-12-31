@@ -22,10 +22,10 @@ function powerup(x, y){
 		this.Letter = 'S';
 		break;
 	case 6:
-		this.Letter = 'D';
+		this.Letter = 's';
 		break;
 	case 7:
-		this.Letter = 'W';
+		this.Letter = 'D';
 	}
 
 	this.draw = function(ctx){
@@ -44,9 +44,6 @@ function powerup(x, y){
 			break;
 		case 'S':
 			this.Color = '#116611';
-			break;
-		case 'W':
-			this.Color = '#555500';
 			break;
 		}
 		OldStyle = ctx.fillStyle;
