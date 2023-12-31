@@ -170,6 +170,12 @@ function missile(x, y, target, speed, weight, isWave){
 	this.Color = WeightChart(this.weight);
 
 	this.draw = function(ctx){
+		if (debugCollisions){
+			ctx.strokeStyle = 'White';
+			ctx.strokeRect(this.loc.X, this.loc.Y, this.loc.Width, this.loc.Height);
+			return;
+		}
+
 		ctx.save();
 		ctx.translate(this.loc.X, this.loc.Y);
 		ctx.rotate(Math.atan2(this.target.Y - this.loc.Y, this.target.X - this.loc.X) + Math.PI / 2);
