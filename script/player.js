@@ -175,7 +175,7 @@ function missile(x, y, target, speed, weight, isWave){
 		ctx.rotate(Math.atan2(this.target.Y - this.loc.Y, this.target.X - this.loc.X) + Math.PI / 2);
 		if(this.wave){
 			ctx.beginPath();
-			ctx.arc(this.loc.Width / -2, this.loc.Height / -2, 20, 0, Math.PI, true);
+			ctx.arc(0, 0, 20, 0, Math.PI, true);
 			ctx.closePath();
 			ctx.fillStyle = this.Color;
 			ctx.fill();
