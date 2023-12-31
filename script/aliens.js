@@ -297,7 +297,6 @@ function predator (x, y, health, weight) {
 	this.getProjectile = function(playerLoc){
 		this.State = PredatorState.WAIT;
 		let speed = 50;
-		let isWave = false;
 		let X = this.loc.centerX();
 		let Y = this.loc.centerY();
 
@@ -306,7 +305,7 @@ function predator (x, y, health, weight) {
 
 		let target = new position(playerLoc.X, playerLoc.Y, 0, 0)
 
-		return new missile(X + incrementX, Y + incrementY, target, speed, this.Weight, isWave);
+		return new missile(X + incrementX, Y + incrementY, target, speed, this.Weight);
 	}
 
 	this.getDestination = function(){
