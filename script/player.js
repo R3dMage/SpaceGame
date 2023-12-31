@@ -3,7 +3,6 @@ function player(){
 	this.Wingspan = 8;
 	
 // Weaponry
-	this.WaveCannon = false;
 	this.DualCannon = false;
 	this.WeaponWeight = 1;
 	this.readyToShoot = true;
@@ -21,7 +20,6 @@ function player(){
 	this.loc = new position(212.5, 634, 16, 20);
 	
 	this.died = function(){
-		this.WaveCannon = false;
 		this.DualCannon = false;
 		this.WeaponWeight = 1;
 		this.Shields = 0;
@@ -52,10 +50,7 @@ function player(){
 
 	}
 	
-	this.getMissileType = function(){
-		if(this.WaveCannon)
-			return 'WAVE';
-		
+	this.getMissileType = function(){		
 		if(this.DualCannon)
 			return 'DUAL';
 		
@@ -158,33 +153,27 @@ function player(){
 		let shotSpeed = 50;
 		let target = new position(this.loc.X, -10, 0, 0);
 		let offset = this.Wingspan;
-
-		if(this.WaveCannon){
-			offset -= 20;
-		}
 		
 		if(this.DualCannon){
-			projectiles.push(new missile(this.loc.X + 2 + offset, this.loc.Y, target, shotSpeed, this.WeaponWeight, this.WaveCannon));
-			projectiles.push(new missile(this.loc.X + 12 + offset, this.loc.Y, target, shotSpeed, this.WeaponWeight, this.WaveCannon));
+			target = new position(this.loc.X + 2, -10, 0, 0);
+			projectiles.push(new missile(this.loc.X + 2, this.loc.Y, target, shotSpeed, this.WeaponWeight));
+			target = new position(this.loc.X + 12, -10, 0, 0);
+			projectiles.push(new missile(this.loc.X + 12, this.loc.Y, target, shotSpeed, this.WeaponWeight));
 		}
 		else{
-			projectiles.push(new missile(this.loc.X + offset, this.loc.Y, target, shotSpeed, this.WeaponWeight, this.WaveCannon));
+			projectiles.push(new missile(this.loc.X + offset, this.loc.Y, target, shotSpeed, this.WeaponWeight));
 		}
 		return projectiles;
 	}
 }
 
-function missile(x, y, target, speed, weight, isWave){
-	if(isWave)
-		this.loc = new position(x, y, 40, 10);
-	else
-		this.loc = new position(x, y, 3, 9);
+function missile(x, y, target, speed, weight){
+	this.loc = new position(x, y, 3, 9);
 	this.target = target;
 	this.weight = weight;
 	this.speed = speed;
 	this.incrementX = (target.X - this.loc.X) / speed;
 	this.incrementY = (target.Y - this.loc.Y) / speed;
-	this.wave = isWave;
 	this.alive = true;
 
 	this.Color = WeightChart(this.weight);
@@ -199,17 +188,10 @@ function missile(x, y, target, speed, weight, isWave){
 		ctx.save();
 		ctx.translate(this.loc.X, this.loc.Y);
 		ctx.rotate(Math.atan2(this.target.Y - this.loc.Y, this.target.X - this.loc.X) + Math.PI / 2);
-		if(this.wave){
-			ctx.beginPath();
-			ctx.arc(0, 0, 20, 0, Math.PI, true);
-			ctx.closePath();
-			ctx.fillStyle = this.Color;
-			ctx.fill();
-		}
-		else{
-			ctx.fillStyle = this.Color;
-			ctx.fillRect(this.loc.Width / -2, this.loc.Height / -2, this.loc.Width, this.loc.Height);
-		}
+
+		ctx.fillStyle = this.Color;
+		ctx.fillRect(this.loc.Width / -2, this.loc.Height / -2, this.loc.Width, this.loc.Height);
+
 		ctx.restore();
 	}
 

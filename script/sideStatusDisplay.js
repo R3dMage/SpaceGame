@@ -35,7 +35,6 @@ function sideStatusDisplay(x, y, width, height){
 		this.drawPowerUp(ctx, 'M', new position(505, bottomY - spacer * 3, 20, 20));
 		this.drawPowerUp(ctx, 'D', new position(505, bottomY - spacer * 2, 20, 20));
 		this.drawPowerUp(ctx, 'S', new position(505, bottomY - spacer, 20, 20));
-		this.drawPowerUp(ctx, 'W', new position(505, bottomY, 20, 20));
 	}
 
 	this.drawPowerUp = function(ctx, letter, location){
@@ -53,10 +52,6 @@ function sideStatusDisplay(x, y, width, height){
 		case 'S':
 			color = '#116611';
 			description = 'Shield Up';
-			break;
-		case 'W':
-			color = '#555500';
-			description = 'Wave Shot';
 			break;
 		}
 
