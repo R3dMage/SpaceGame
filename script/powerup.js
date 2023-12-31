@@ -22,10 +22,11 @@ function powerup(x, y){
 		this.Letter = 'S';
 		break;
 	case 6:
-		this.Letter = 's';
+		this.Letter = 'S';
 		break;
 	case 7:
 		this.Letter = 'D';
+		break;
 	}
 
 	this.draw = function(ctx){
