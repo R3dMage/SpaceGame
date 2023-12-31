@@ -150,7 +150,7 @@ function player(){
 
 	this.getProjectiles = function(){
 		let projectiles = [];
-		let shotSpeed = 50;
+		let shotSpeed = 10;
 		let target = new position(this.loc.X, -10, 0, 0);
 		let offset = this.Wingspan;
 		
@@ -172,9 +172,7 @@ function missile(x, y, target, speed, weight){
 	this.target = target;
 	this.weight = weight;
 	this.speed = speed;
-	this.incrementX = (target.X - this.loc.X) / speed;
-	this.incrementY = (target.Y - this.loc.Y) / speed;
-	this.alive = true;
+	this.direction = Math.atan2(target.Y - this.loc.Y, target.X - this.loc.X);
 
 	this.Color = WeightChart(this.weight);
 
@@ -187,7 +185,7 @@ function missile(x, y, target, speed, weight){
 
 		ctx.save();
 		ctx.translate(this.loc.X, this.loc.Y);
-		ctx.rotate(Math.atan2(this.target.Y - this.loc.Y, this.target.X - this.loc.X) + Math.PI / 2);
+		ctx.rotate(this.direction + Math.PI / 2);
 
 		ctx.fillStyle = this.Color;
 		ctx.fillRect(this.loc.Width / -2, this.loc.Height / -2, this.loc.Width, this.loc.Height);
@@ -196,8 +194,8 @@ function missile(x, y, target, speed, weight){
 	}
 
 	this.move = function(){
-		this.loc.X += this.incrementX;
-		this.loc.Y += this.incrementY;
+		this.loc.X += Math.cos(this.direction) * this.speed;
+		this.loc.Y += Math.sin(this.direction) * this.speed;
 	}
 
 	this.endDuration = function(){
