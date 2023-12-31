@@ -296,7 +296,7 @@ function predator (x, y, health, weight) {
 
 	this.getProjectile = function(playerLoc){
 		this.State = PredatorState.WAIT;
-		let speed = 50;
+		let speed = 15;
 		let X = this.loc.centerX();
 		let Y = this.loc.centerY();
 
