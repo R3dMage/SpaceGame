@@ -309,7 +309,9 @@ function predator (x, y, health, weight) {
 	}
 
 	this.getDestination = function(){
-		let X = Math.random() * 500;
+		let newDestination = this.destination;
+		while(this.distanceFromPoint(newDestination.X, newDestination.Y) < this.proximity){
+			let X = Math.random() * 500;
 		if (X < 10)
 			X = 10;
 		else if (X > 490)
@@ -319,7 +321,11 @@ function predator (x, y, health, weight) {
 			Y = 10;
 		else if (Y > 700)
 			Y = 700;
-		return new position(X, Y, 0, 0);
+
+		newDestination = new position(X, Y, 0, 0);
+		}
+		
+		return newDestination;
 	}
 
 	this.isOutofBounds = function(){
@@ -330,9 +336,14 @@ function predator (x, y, health, weight) {
 	}
 
 	this.inProximityOfDestination = function(){
-		if (this.loc.X - this.destination.X < this.proximity && this.loc.Y - this.destination.Y < this.proximity)
+		if (this.distanceFromPoint(this.destination.X, this.destination.Y) < this.proximity)
 			return true;
 		
 		return false;
+	}
+
+	this.distanceFromPoint = function(x, y){
+		let distance = Math.sqrt(Math.pow(this.loc.X - x, 2) + Math.pow(this.loc.Y - y, 2));
+		return distance;
 	}
 }
