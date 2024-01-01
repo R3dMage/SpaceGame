@@ -23,9 +23,6 @@ function swooper(x, y, health, weight){
 	this.OrigX = this.loc.X;
 	this.Swoop = 0;
 	this.SwoopMax = Math.random() * 10;
-	this.PowerUp = false;
-	if (Math.random() * 100 < 10)
-	this.PowerUp = true;
 
 	this.draw = function(ctx){
 		if (this.Health <= 0)
@@ -117,9 +114,6 @@ function demon(x, y, health, weight) {
 	this.Weight = weight;
 	this.readyToShoot = false;
 	this.isDead = false;
-	this.PowerUp = false;
-	if (Math.random() * 100 < 20)
-		this.PowerUp = true;
 	
 	this.proximity = 25;	
 	let X = Math.random() * 500;
@@ -210,9 +204,6 @@ function predator (x, y, health, weight) {
 	this.Health = health;
 	this.Weight = weight;
 	this.State = PredatorState.WAIT;
-	this.PowerUp = false;
-	if (Math.random() * 100 < 20)
-		this.PowerUp = true;
 
 	this.proximity = 25;	
 	let X = Math.random() * 500;
