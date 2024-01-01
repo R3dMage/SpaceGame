@@ -162,7 +162,7 @@ function game(){
 		}
 
 		for(let i = 0; i < this.enemyProjectiles.length; i++){
-			if(this.enemyProjectiles[i].loc.CollidedWith(this.player.loc)){
+			if(!this.player.Invincible && this.enemyProjectiles[i].loc.CollidedWith(this.player.loc)){
 				if (this.player.Shields > 0){
 					this.player.Invincible = true;
 					this.player.Shields -= 1;
