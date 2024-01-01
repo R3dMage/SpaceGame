@@ -122,7 +122,7 @@ function game(){
 					// The enemy player hit has died. Get Points!
 						this.score += this.enemies[j].Weight * 100;
 						this.explosions.push(new kaboom(this.enemies[j].loc.X + this.enemies[j].loc.Width / 2, this.enemies[j].loc.Y, 15));
-						if (this.enemies[j].PowerUp){
+						if (this.levelTracker.levelNumber > 1 && Math.random() > 0.9){
 							this.powerups.push(new powerup(this.enemies[j].loc.X, this.enemies[j].loc.Y));
 						}
 						this.kills += 1;
