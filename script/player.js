@@ -69,15 +69,15 @@ function player(){
 			return;
 		}
 
-		let drawX = this.loc.X + this.Wingspan;
+		let drawX = this.loc.X + this.wingspan;
 		let drawY = this.loc.Y;
 		try {
 			if(!this.Exploding){
 				ctx.beginPath();
 				ctx.moveTo(drawX, drawY);
-				ctx.lineTo(drawX - this.Wingspan, drawY + 20);
+				ctx.lineTo(drawX - this.wingspan, drawY + 20);
 				ctx.lineTo(drawX, drawY + 15);
-				ctx.lineTo(drawX + this.Wingspan, drawY + 20);
+				ctx.lineTo(drawX + this.wingspan, drawY + 20);
 				ctx.lineTo(drawX, drawY);
 				ctx.closePath();
 				if(this.Invincible){
