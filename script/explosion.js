@@ -1,5 +1,5 @@
-function kaboom(x, y, Size){
-	this.loc = new position(x, y, Size, Size);
+function kaboom(x, y, size){
+	this.loc = new position(x, y, size, size);
 	this.explodeDistance = 0;
 	this.Done = false;
 	
