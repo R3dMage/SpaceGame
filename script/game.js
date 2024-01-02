@@ -140,15 +140,15 @@ function game(){
 			if (this.enemies[i].isDead())
 				continue;
 
-			if( !this.player.Invincible && this.enemies[i].loc.CollidedWith( this.player.loc) ){
+			if( !this.player.invincible && this.enemies[i].loc.CollidedWith( this.player.loc) ){
 				if (this.player.Shields > 0){
-								this.player.Invincible = true;
+								this.player.invincible = true;
 								this.player.Shields -= 1;
 						}
 						else{
 								// Some sort of player hit animation
-								this.player.Exploding = true;
-								this.player.Invincible = true;
+								this.player.exploding = true;
+								this.player.invincible = true;
 								this.player.died();
 								this.lives -= 1;
 						}
@@ -163,14 +163,14 @@ function game(){
 		}
 
 		for(let i = 0; i < this.enemyProjectiles.length; i++){
-			if(!this.player.Invincible && this.enemyProjectiles[i].loc.CollidedWith(this.player.loc)){
+			if(!this.player.invincible && this.enemyProjectiles[i].loc.CollidedWith(this.player.loc)){
 				if (this.player.Shields > 0){
-					this.player.Invincible = true;
+					this.player.invincible = true;
 					this.player.Shields -= 1;
 				}
 				else{
-					this.player.Exploding = true;
-					this.player.Invincible = true;
+					this.player.exploding = true;
+					this.player.invincible = true;
 					this.player.died();
 					this.lives -= 1;
 				}
