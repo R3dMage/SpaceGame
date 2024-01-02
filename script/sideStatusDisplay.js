@@ -3,7 +3,7 @@ function sideStatusDisplay(x, y, width, height){
 
 	this.draw = function(ctx, player, showStatus){
 		ctx.fillStyle = '#EEEEEE';
-		ctx.fillRect(this.loc.X, this.loc.Y, this.loc.Width, this.loc.Height);
+		ctx.fillRect(this.loc.X, this.loc.Y, this.loc.width, this.loc.height);
 		
 		if (!showStatus)
 			return;
@@ -19,11 +19,11 @@ function sideStatusDisplay(x, y, width, height){
 			ctx.fillText( 'NONE', 550, 140 );
 		else
 		{
-			ctx.fillStyle = WeightChart(player.Shields);
+			ctx.fillStyle = WeightChart(player.shields);
 			ctx.fillRect( 550, 130, 40, 10 );
 		}
 		
-		ctx.fillStyle = WeightChart(player.WeaponWeight);
+		ctx.fillStyle = WeightChart(player.weaponWeight);
 		ctx.fillRect( 550, 110, 40, 10 );
 
 		let bottomY = 690
@@ -59,7 +59,7 @@ function sideStatusDisplay(x, y, width, height){
 
 		ctx.fillStyle = color;
 		ctx.beginPath();
-		ctx.arc(location.centerX(), location.centerY(), location.Width / 2, 2 * Math.PI, false);
+		ctx.arc(location.centerX(), location.centerY(), location.width / 2, 2 * Math.PI, false);
 		ctx.fill();
 
 		ctx.font = '14px Arial';
