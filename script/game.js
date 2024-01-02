@@ -72,7 +72,7 @@ function game(){
 		this.player.update();
 
 		// Handle dead player
-		if( this.lives <= 0 && !this.player.Exploding ){
+		if( this.lives <= 0 && !this.player.exploding ){
 				this.gameState = 'GameOver';
 				this.currentGameOverDelay = this.frameNumber + this.gameOverDelay;
 		}
@@ -116,7 +116,7 @@ function game(){
 					continue;
 
 				if (this.missiles[i].loc.CollidedWith(this.enemies[j].loc)){
-					this.enemies[j].Health -= this.missiles[i].weight;
+					this.enemies[j].health -= this.missiles[i].weight;
 					missilesToRemove.push(i);
 
 					if (this.enemies[j].isDead()){
@@ -141,9 +141,9 @@ function game(){
 				continue;
 
 			if( !this.player.invincible && this.enemies[i].loc.CollidedWith( this.player.loc) ){
-				if (this.player.Shields > 0){
+				if (this.player.shields > 0){
 								this.player.invincible = true;
-								this.player.Shields -= 1;
+								this.player.shields -= 1;
 						}
 						else{
 								// Some sort of player hit animation
@@ -164,9 +164,9 @@ function game(){
 
 		for(let i = 0; i < this.enemyProjectiles.length; i++){
 			if(!this.player.invincible && this.enemyProjectiles[i].loc.CollidedWith(this.player.loc)){
-				if (this.player.Shields > 0){
+				if (this.player.shields > 0){
 					this.player.invincible = true;
-					this.player.Shields -= 1;
+					this.player.shields -= 1;
 				}
 				else{
 					this.player.exploding = true;
