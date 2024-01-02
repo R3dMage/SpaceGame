@@ -13,7 +13,7 @@ function player(){
 	this.rechargeDelay = this.maxRechargeDelay;
 
 // Shields
-	this.Shields = 0;
+	this.shields = 0;
 
 // Player Damaged / Killed
 	this.speed = 8;
@@ -48,7 +48,7 @@ function player(){
 	}
 
 	this.canShoot = function(frameNumber){
-		if (frameNumber > this.shotDelay && this.readyToShoot && !this.Exploding && this.laserEnergy > 10){
+		if (frameNumber > this.shotDelay && this.readyToShoot && !this.exploding && this.laserEnergy > 10){
 			this.readyToShoot = false;
 			return true;
 		}
@@ -72,7 +72,7 @@ function player(){
 		let drawX = this.loc.X + this.wingspan;
 		let drawY = this.loc.Y;
 		try {
-			if(!this.Exploding){
+			if(!this.exploding){
 				ctx.beginPath();
 				ctx.moveTo(drawX, drawY);
 				ctx.lineTo(drawX - this.wingspan, drawY + 20);
@@ -109,7 +109,7 @@ function player(){
 				ctx.fill();
 				if (this.explodeDistance >= 40){
 					this.explodeDistance = 0;
-					this.Exploding = false;
+					this.exploding = false;
 					this.loc.X = 250;
 					this.loc.Y = 634;
 				}
@@ -126,7 +126,7 @@ function player(){
 		else
 			shieldRadius = this.loc.Height;
 		
-		ctx.strokeStyle = WeightChart(this.Shields);
+		ctx.strokeStyle = WeightChart(this.shields);
 		ctx.beginPath();
 		ctx.arc(this.loc.X + this.wingspan, this.loc.Y + this.loc.Height/2, shieldRadius, 2 * Math.PI, false);
 		ctx.closePath();
