@@ -111,7 +111,7 @@ function game(){
 				if (this.enemies[j].isDead())
 					continue;
 
-				if (this.missiles[i].loc.CollidedWith(this.enemies[j].loc)){
+				if (this.missiles[i].loc.collidedWith(this.enemies[j].loc)){
 					this.enemies[j].health -= this.missiles[i].weight;
 					missilesToRemove.push(i);
 
@@ -119,7 +119,7 @@ function game(){
 					// The enemy player hit has died. Get Points!
 						this.score += this.enemies[j].weight * 100;
 						this.explosions.push(new kaboom(this.enemies[j].loc.x + this.enemies[j].loc.width / 2, this.enemies[j].loc.y, 15));
-						if (this.levelTracker.levelNumber > 1 && Math.random() > 0.9){
+						if(true){// (this.levelTracker.levelNumber > 1 && Math.random() > 0.9){
 							this.powerups.push(new powerup(this.enemies[j].loc.x, this.enemies[j].loc.y));
 						}
 						this.kills += 1;
@@ -136,7 +136,7 @@ function game(){
 			if (this.enemies[i].isDead())
 				continue;
 
-			if( !this.player.invincible && this.enemies[i].loc.CollidedWith( this.player.loc) ){
+			if( !this.player.invincible && this.enemies[i].loc.collidedWith( this.player.loc) ){
 				if (this.player.shields > 0){
 						this.player.invincible = true;
 						this.player.shields -= 1;
@@ -159,7 +159,7 @@ function game(){
 		}
 
 		for(let i = 0; i < this.enemyProjectiles.length; i++){
-			if(!this.player.invincible && this.enemyProjectiles[i].loc.CollidedWith(this.player.loc)){
+			if(!this.player.invincible && this.enemyProjectiles[i].loc.collidedWith(this.player.loc)){
 				if (this.player.shields > 0){
 					this.player.invincible = true;
 					this.player.shields -= 1;
@@ -183,7 +183,7 @@ function game(){
 		}
 
 		for (let i = 0; i < this.powerups.length; i++){
-			if( this.powerups[i].loc.CollidedWith( this.player.loc) ){
+			if( this.powerups[i].loc.collidedWith( this.player.loc) ){
 				this.player.processPowerUp(this.powerups[i].letter);
 				powerupsToRemove.push(i);
 			}

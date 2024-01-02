@@ -18,7 +18,7 @@ function position(x, y, width, height){
 		return this.y + this.height / 2;
 	}
 	
-	this.CollidedWith = function(L1){
+	this.collidedWith = function(L1){
 		if(( L1.getY1() < this.y ) || ( L1.y > this.getY1() ||
 		   ( L1.x > this.getX1() ) || ( L1.getX1() < this.x )))
 		{
