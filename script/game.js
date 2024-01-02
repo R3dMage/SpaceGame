@@ -74,7 +74,7 @@ function game(){
 		}
 
 		this.moveObjects();
-		this.checkForCollisions();
+		this.update();
 		this.drawObjects();
 	}
 
@@ -98,12 +98,16 @@ function game(){
 		}
 	}
 
-	this.checkForCollisions = function(){
+	this.update = function(){
+		this.updateMissiles();
+		this.updateEnemies();
+		this.updateEnemyProjectiles();
+		this.updateExplosions();
+		this.updatePowerUps();		
+	}
+
+	this.updateMissiles = function(){
 		let missilesToRemove = [];
-		let enemyProjectilesToRemove = [];
-		let enemiesToRemove = [];
-		let powerupsToRemove = [];
-		let explosionsToRemove = [];
 
 		for (let i = 0; i < this.missiles.length; i++){
 			for (let j = 0; j < this.enemies.length; j++){
@@ -119,7 +123,7 @@ function game(){
 					// The enemy player hit has died. Get Points!
 						this.score += this.enemies[j].weight * 100;
 						this.explosions.push(new kaboom(this.enemies[j].loc.x + this.enemies[j].loc.width / 2, this.enemies[j].loc.y, 15));
-						if(true){// (this.levelTracker.levelNumber > 1 && Math.random() > 0.9){
+						if (this.levelTracker.levelNumber > 1 && Math.random() > 0.9){
 							this.powerups.push(new powerup(this.enemies[j].loc.x, this.enemies[j].loc.y));
 						}
 						this.kills += 1;
@@ -130,7 +134,11 @@ function game(){
 			if(this.missiles[i].endDuration())
 				missilesToRemove.push(i);
 		}
+		
+		missilesToRemove.forEach((element) => this.missiles.splice(element, 1));
+	}
 
+	this.updateEnemies = function(){
 		for (let i = 0; i < this.enemies.length; i++){
 			// Check if player collided with a bad guy
 			if (this.enemies[i].isDead())
@@ -149,14 +157,16 @@ function game(){
 						this.lives -= 1;
 				}
 			}
+
 			if (this.enemies[i].canShoot()){
 				let projectile = this.enemies[i].getProjectile(this.player.loc);
 				this.enemyProjectiles.push(projectile);
 			}
-			// If enemy gets to the bottom stop thinking about him
-			if (this.enemies[i].loc.y > 720)
-				enemiesToRemove.push(i);
 		}
+	}
+
+	this.updateEnemyProjectiles = function(){
+		let enemyProjectilesToRemove = [];
 
 		for(let i = 0; i < this.enemyProjectiles.length; i++){
 			if(!this.player.invincible && this.enemyProjectiles[i].loc.collidedWith(this.player.loc)){
@@ -177,10 +187,22 @@ function game(){
 				enemyProjectilesToRemove.push(i);
 		}
 
+		enemyProjectilesToRemove.forEach((element) => this.enemyProjectiles.splice(element, 1));
+	}
+
+	this.updateExplosions = function(){
+		let explosionsToRemove = [];
+
 		for (let i = 0; i < this.explosions.length; i++){
 			if(this.explosions[i].Done)
 				explosionsToRemove.push(i);
 		}
+		
+		explosionsToRemove.forEach((element) => this.explosions.splice(element, 1));
+	}
+
+	this.updatePowerUps = function(){
+		let powerupsToRemove = [];
 
 		for (let i = 0; i < this.powerups.length; i++){
 			if( this.powerups[i].loc.collidedWith( this.player.loc) ){
@@ -192,10 +214,7 @@ function game(){
 			}
 		}
 
-		missilesToRemove.forEach((element) => this.missiles.splice(element, 1));
-		enemyProjectilesToRemove.forEach((element) => this.enemyProjectiles.splice(element, 1));
 		powerupsToRemove.forEach((element) => this.powerups.splice(element, 1));
-		explosionsToRemove.forEach((element) => this.explosions.splice(element, 1));
 	}
 
 	this.drawObjects = function(){
