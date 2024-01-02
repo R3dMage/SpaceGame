@@ -19,11 +19,11 @@ function sideStatusDisplay(x, y, width, height){
 			ctx.fillText( 'NONE', 550, 140 );
 		else
 		{
-			ctx.fillStyle = WeightChart(player.Shields);
+			ctx.fillStyle = WeightChart(player.shields);
 			ctx.fillRect( 550, 130, 40, 10 );
 		}
 		
-		ctx.fillStyle = WeightChart(player.WeaponWeight);
+		ctx.fillStyle = WeightChart(player.weaponWeight);
 		ctx.fillRect( 550, 110, 40, 10 );
 
 		let bottomY = 690
