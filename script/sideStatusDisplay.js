@@ -80,7 +80,10 @@ function sideStatusDisplay(x, y, width, height){
 		let energyWidth = 100;
 		let energyHeight = 10;
 		let energyX = 480 - energyWidth;
-		let energyY = 700 - energyHeight;
+		let energyY = 740 - energyHeight;
+
+		ctx.fillStyle = '#888888';
+		ctx.fillRect(0, 720, 500, 30);
 
 		if (energy < energyMax / 3)
 			ctx.fillStyle = '#FF0000';
@@ -92,5 +95,10 @@ function sideStatusDisplay(x, y, width, height){
 		ctx.fillRect(energyX, energyY, energyWidth * (energy / energyMax), energyHeight);
 		ctx.strokeStyle = '#FFFFFF';
 		ctx.strokeRect(energyX, energyY, energyWidth, energyHeight);
+
+		ctx.font = 'italic bold 15px Arial';
+		ctx.fillStyle = '#000000';
+		ctx.textAlign = 'left';
+		ctx.fillText( 'WEAPON ENERGY:', 230, 740 );
 	}
 }
