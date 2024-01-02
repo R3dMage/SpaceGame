@@ -30,7 +30,7 @@ function swooper(x, y, health, weight){
 
 		if (debugCollisions){
 			ctx.strokeStyle = 'White';
-			ctx.strokeRect(this.loc.X, this.loc.Y, this.loc.Width, this.loc.Height);
+			ctx.strokeRect(this.loc.X, this.loc.Y, this.loc.width, this.loc.height);
 			return;
 		}
 
@@ -143,17 +143,17 @@ function demon(x, y, health, weight) {
 
 		if (debugCollisions){
 			ctx.strokeStyle = 'White';
-			ctx.strokeRect(this.loc.X, this.loc.Y, this.loc.Width, this.loc.Height);
+			ctx.strokeRect(this.loc.X, this.loc.Y, this.loc.width, this.loc.height);
 			return;
 		}
 
 		this.color = WeightChart(this.health);
 
 		ctx.beginPath();
-		ctx.moveTo(this.loc.X + this.loc.Width / 2, this.loc.Y);
-		ctx.lineTo(this.loc.X + this.loc.Width, this.loc.Y + this.loc.Height / 2);
-		ctx.lineTo(this.loc.X + this.loc.Width / 2, this.loc.Y + this.loc.Height);
-		ctx.lineTo(this.loc.X, this.loc.Y + this.loc.Height / 2);
+		ctx.moveTo(this.loc.X + this.loc.width / 2, this.loc.Y);
+		ctx.lineTo(this.loc.X + this.loc.width, this.loc.Y + this.loc.height / 2);
+		ctx.lineTo(this.loc.X + this.loc.width / 2, this.loc.Y + this.loc.height);
+		ctx.lineTo(this.loc.X, this.loc.Y + this.loc.height / 2);
 		ctx.closePath();
 		ctx.fillStyle = this.color;
 		ctx.fill();
@@ -255,7 +255,7 @@ function predator (x, y, health, weight) {
 
 		if (debugCollisions){
 			ctx.strokeStyle = 'White';
-			ctx.strokeRect(this.loc.X, this.loc.Y, this.loc.Width, this.loc.Height);
+			ctx.strokeRect(this.loc.X, this.loc.Y, this.loc.width, this.loc.height);
 			return;
 		}
 
@@ -263,9 +263,9 @@ function predator (x, y, health, weight) {
 
 		ctx.beginPath();
 		ctx.moveTo(this.loc.centerX(), this.loc.Y);
-		ctx.lineTo(this.loc.getX1(), this.loc.Y + this.loc.Height / 3);
+		ctx.lineTo(this.loc.getX1(), this.loc.Y + this.loc.height / 3);
 		ctx.lineTo(this.loc.centerX(), this.loc.getY1());
-		ctx.lineTo(this.loc.X, this.loc.Y + this.loc.Height / 3);
+		ctx.lineTo(this.loc.X, this.loc.Y + this.loc.height / 3);
 		ctx.closePath();
 		ctx.fillStyle = this.color;
 		ctx.fill();

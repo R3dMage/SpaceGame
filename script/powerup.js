@@ -32,7 +32,7 @@ function powerup(x, y){
 	this.draw = function(ctx){
 		if(debugCollisions){
 			ctx.strokeStyle = 'White';
-			ctx.strokeRect(this.loc.X, this.loc.Y, this.loc.Width, this.loc.Height);
+			ctx.strokeRect(this.loc.X, this.loc.Y, this.loc.width, this.loc.height);
 			return;
 		}
 		

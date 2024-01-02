@@ -1,21 +1,21 @@
-function position(x, y, W, H){
+function position(x, y, width, height){
 	this.X = x;
 	this.Y = y;
-	this.Width = W;
-	this.Height = H;
+	this.width = width;
+	this.height = height;
 	this.getX1 = function(){
-		return this.X + this.Width;
+		return this.X + this.width;
 	}
 	this.getY1 = function(){
-		return this.Y + this.Height;
+		return this.Y + this.height;
 	}
 
 	this.centerX = function(){
-		return this.X + this.Width / 2;
+		return this.X + this.width / 2;
 	}
 
 	this.centerY = function(){
-		return this.Y + this.Height / 2;
+		return this.Y + this.height / 2;
 	}
 	
 	this.CollidedWith = function(L1){

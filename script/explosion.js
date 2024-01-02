@@ -15,7 +15,7 @@ function kaboom(x, y, Size){
 			else
 				ctx.fillStyle = 'rgba(255, 255, 0,' + Math.random()/2 + ')';
 			ctx.fill();
-			if (this.explodeDistance >= this.loc.Width)
+			if (this.explodeDistance >= this.loc.width)
 				this.Done = true;
 		}
 	}	

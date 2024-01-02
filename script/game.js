@@ -122,7 +122,7 @@ function game(){
 					if (this.enemies[j].isDead()){
 					// The enemy player hit has died. Get Points!
 						this.score += this.enemies[j].Weight * 100;
-						this.explosions.push(new kaboom(this.enemies[j].loc.X + this.enemies[j].loc.Width / 2, this.enemies[j].loc.Y, 15));
+						this.explosions.push(new kaboom(this.enemies[j].loc.X + this.enemies[j].loc.width / 2, this.enemies[j].loc.Y, 15));
 						if (this.levelTracker.levelNumber > 1 && Math.random() > 0.9){
 							this.powerups.push(new powerup(this.enemies[j].loc.X, this.enemies[j].loc.Y));
 						}
@@ -142,16 +142,16 @@ function game(){
 
 			if( !this.player.invincible && this.enemies[i].loc.CollidedWith( this.player.loc) ){
 				if (this.player.shields > 0){
-								this.player.invincible = true;
-								this.player.shields -= 1;
-						}
-						else{
-								// Some sort of player hit animation
-								this.player.exploding = true;
-								this.player.invincible = true;
-								this.player.died();
-								this.lives -= 1;
-						}
+						this.player.invincible = true;
+						this.player.shields -= 1;
+				}
+				else{
+						// Some sort of player hit animation
+						this.player.exploding = true;
+						this.player.invincible = true;
+						this.player.died();
+						this.lives -= 1;
+				}
 			}
 			if (this.enemies[i].canShoot()){
 				let projectile = this.enemies[i].getProjectile(this.player.loc);

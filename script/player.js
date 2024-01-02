@@ -39,8 +39,8 @@ function player(){
 			
 			if(y < 0)
 				y = 0;
-			if(y > 720 - this.loc.Height)
-				y = 720 - this.loc.Height;
+			if(y > 720 - this.loc.height)
+				y = 720 - this.loc.height;
 				
 			this.loc.X = x;
 			this.loc.Y = y;
@@ -65,7 +65,7 @@ function player(){
 	this.draw = function(ctx){
 		if(debugCollisions){
 			ctx.strokeStyle = 'White';
-			ctx.strokeRect(this.loc.X, this.loc.Y, this.loc.Width, this.loc.Height);
+			ctx.strokeRect(this.loc.X, this.loc.Y, this.loc.width, this.loc.height);
 			return;
 		}
 
@@ -80,7 +80,7 @@ function player(){
 				ctx.lineTo(drawX + this.wingspan, drawY + 20);
 				ctx.lineTo(drawX, drawY);
 				ctx.closePath();
-				if(this.Invincible){
+				if(this.invincible){
 					let alpha = 255;
 					if(this.invincibleTime % 2 == 0)
 						alpha = 0;
@@ -88,7 +88,7 @@ function player(){
 					this.invincibleTime += 1;
 					if(this.invincibleTime >= 100){
 						this.invincibleTime = 0;
-						this.Invincible = false;
+						this.invincible = false;
 					}
 				}
 				else
@@ -121,14 +121,14 @@ function player(){
 	
 	this.drawShields = function(ctx){
 		let shieldRadius = 0;
-		if( this.loc.Width > this.loc.Height )
-			shieldRadius = this.loc.Width;
+		if( this.loc.width > this.loc.height )
+			shieldRadius = this.loc.width;
 		else
-			shieldRadius = this.loc.Height;
+			shieldRadius = this.loc.height;
 		
 		ctx.strokeStyle = WeightChart(this.shields);
 		ctx.beginPath();
-		ctx.arc(this.loc.X + this.wingspan, this.loc.Y + this.loc.Height/2, shieldRadius, 2 * Math.PI, false);
+		ctx.arc(this.loc.X + this.wingspan, this.loc.Y + this.loc.height/2, shieldRadius, 2 * Math.PI, false);
 		ctx.closePath();
 		ctx.stroke();
 	}
@@ -209,7 +209,7 @@ function missile(x, y, target, speed, weight){
 	this.draw = function(ctx){
 		if (debugCollisions){
 			ctx.strokeStyle = 'White';
-			ctx.strokeRect(this.loc.X, this.loc.Y, this.loc.Width, this.loc.Height);
+			ctx.strokeRect(this.loc.X, this.loc.Y, this.loc.width, this.loc.height);
 			return;
 		}
 
@@ -218,7 +218,7 @@ function missile(x, y, target, speed, weight){
 		ctx.rotate(this.direction + Math.PI / 2);
 
 		ctx.fillStyle = this.Color;
-		ctx.fillRect(this.loc.Width / -2, this.loc.Height / -2, this.loc.Width, this.loc.Height);
+		ctx.fillRect(this.loc.width / -2, this.loc.height / -2, this.loc.width, this.loc.height);
 
 		ctx.restore();
 	}
