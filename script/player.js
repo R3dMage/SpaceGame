@@ -94,7 +94,7 @@ function player(){
 				else
 					ctx.fillStyle = 'rgba(142,214,255,255)';
 				ctx.fill();
-				if( this.Shields > 0 )
+				if( this.shields > 0 )
 					this.drawShields(ctx);
 			}
 			else{
@@ -142,7 +142,7 @@ function player(){
 				this.DualCannon = true;
 				break;
 			case 'S':
-				this.Shields += 1;
+				this.shields += 1;
 				break;
 		}
 	}
