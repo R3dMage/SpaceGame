@@ -32,7 +32,7 @@ function powerup(x, y){
 	this.draw = function(ctx){
 		if(debugCollisions){
 			ctx.strokeStyle = 'White';
-			ctx.strokeRect(this.loc.X, this.loc.Y, this.loc.width, this.loc.height);
+			ctx.strokeRect(this.loc.x, this.loc.y, this.loc.width, this.loc.height);
 			return;
 		}
 		
@@ -63,6 +63,6 @@ function powerup(x, y){
 	}
 
 	this.move = function(){
-		this.loc.Y += 4;
+		this.loc.y += 4;
 	}
 }

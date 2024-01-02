@@ -17,10 +17,10 @@ function swooper(x, y, health, weight){
 	this.moveRight = true;
 	this.color = '8844FF'
 	let randomX = (Math.random() * 10) + 80;
-	this.posX = this.loc.X + randomX;
-	this.negX = this.loc.X - randomX;
-	this.origY = this.loc.Y;
-	this.origX = this.loc.X;
+	this.posX = this.loc.x + randomX;
+	this.negX = this.loc.x - randomX;
+	this.origY = this.loc.y;
+	this.origX = this.loc.x;
 	this.swoop = 0;
 	this.swoopMax = Math.random() * 10;
 
@@ -30,12 +30,12 @@ function swooper(x, y, health, weight){
 
 		if (debugCollisions){
 			ctx.strokeStyle = 'White';
-			ctx.strokeRect(this.loc.X, this.loc.Y, this.loc.width, this.loc.height);
+			ctx.strokeRect(this.loc.x, this.loc.y, this.loc.width, this.loc.height);
 			return;
 		}
 
-		var drawX = this.loc.X + 25;
-		var drawY = this.loc.Y;
+		var drawX = this.loc.x + 25;
+		var drawY = this.loc.y;
 		this.color = WeightChart(this.health);
 
 		ctx.beginPath();
@@ -61,40 +61,40 @@ function swooper(x, y, health, weight){
 				if (this.moveRight){
 					if (this.loc.getX1() < this.posX &&
 						this.loc.getX1() < 500)
-						this.loc.X += 5;
+						this.loc.x += 5;
 					else{
 						this.moveRight = false;
 						this.swoop += 1;
 					}
 				}
 				else{
-					if (this.loc.X > this.negX &&
-						this.loc.X > 10)
-						this.loc.X -= 5;
+					if (this.loc.x > this.negX &&
+						this.loc.x > 10)
+						this.loc.x -= 5;
 					else{
 						this.moveRight = true;
 						this.swoop += 1;
 					}
 				}
 				if(this.swoop >= this.swoopMax &&
-					this.loc.X > this.origX - 10 &&
-					this.loc.X < this.origX + 10){
+					this.loc.x > this.origX - 10 &&
+					this.loc.x < this.origX + 10){
 					this.swoop = 0;
 					this.state = SwooperState.RUSH;
 				}
 				break;
 			case SwooperState.RUSH:
-				this.loc.Y += 15;
-				if (this.loc.Y > this.origY + 300){
+				this.loc.y += 15;
+				if (this.loc.y > this.origY + 300){
 					this.origY += 100;
-					if (this.loc.Y > 600)
+					if (this.loc.y > 600)
 						this.origY = 50;
 					this.state = SwooperState.RETREAT;
 				}
 				break;
 			case SwooperState.RETREAT:
-				this.loc.Y -= 5;
-				if (this.loc.Y <= this.origY)
+				this.loc.y -= 5;
+				if (this.loc.y <= this.origY)
 					this.state = SwooperState.SWOOP;
 				break;
 			}
@@ -119,21 +119,21 @@ function demon(x, y, health, weight) {
 	let X = Math.random() * 500;
 	let Y = Math.random() * 500;	
 	this.destination = new position(X, Y, 0, 0);
-	this.slope = (this.destination.Y - this.loc.Y) / (this.destination.X - this.loc.X);
-	this.increment = (this.destination.X - this.loc.X) / 50;
+	this.slope = (this.destination.y - this.loc.y) / (this.destination.x - this.loc.x);
+	this.increment = (this.destination.x - this.loc.x) / 50;
 
 	this.move = function(){
 		if (this.isDead())
 			return;
 
-		//let increment = (this.destination.X - this.loc.X) / 50;
-		this.loc.X = this.increment + this.loc.X;
-		this.loc.Y = this.loc.Y + this.slope * this.increment;
+		//let increment = (this.destination.x - this.loc.x) / 50;
+		this.loc.x = this.increment + this.loc.x;
+		this.loc.y = this.loc.y + this.slope * this.increment;
 
 		if (this.inProximityOfDestination() || this.isOutofBounds()){
 			this.destination = this.getDestination();
-			this.slope = (this.destination.Y - this.loc.Y) / (this.destination.X - this.loc.X);
-			this.increment = (this.destination.X - this.loc.X) / 50;
+			this.slope = (this.destination.y - this.loc.y) / (this.destination.x - this.loc.x);
+			this.increment = (this.destination.x - this.loc.x) / 50;
 		}
 	}
 
@@ -143,17 +143,17 @@ function demon(x, y, health, weight) {
 
 		if (debugCollisions){
 			ctx.strokeStyle = 'White';
-			ctx.strokeRect(this.loc.X, this.loc.Y, this.loc.width, this.loc.height);
+			ctx.strokeRect(this.loc.x, this.loc.y, this.loc.width, this.loc.height);
 			return;
 		}
 
 		this.color = WeightChart(this.health);
 
 		ctx.beginPath();
-		ctx.moveTo(this.loc.X + this.loc.width / 2, this.loc.Y);
-		ctx.lineTo(this.loc.X + this.loc.width, this.loc.Y + this.loc.height / 2);
-		ctx.lineTo(this.loc.X + this.loc.width / 2, this.loc.Y + this.loc.height);
-		ctx.lineTo(this.loc.X, this.loc.Y + this.loc.height / 2);
+		ctx.moveTo(this.loc.x + this.loc.width / 2, this.loc.y);
+		ctx.lineTo(this.loc.x + this.loc.width, this.loc.y + this.loc.height / 2);
+		ctx.lineTo(this.loc.x + this.loc.width / 2, this.loc.y + this.loc.height);
+		ctx.lineTo(this.loc.x, this.loc.y + this.loc.height / 2);
 		ctx.closePath();
 		ctx.fillStyle = this.color;
 		ctx.fill();
@@ -185,14 +185,14 @@ function demon(x, y, health, weight) {
 	}
 
 	this.isOutofBounds = function(){
-		if (this.loc.X < 0 || this.loc.X > 500 || this.loc.Y < 0 || this.loc.Y > 700)
+		if (this.loc.x < 0 || this.loc.x > 500 || this.loc.y < 0 || this.loc.y > 700)
 			return true;
 		
 		return false;
 	}
 
 	this.inProximityOfDestination = function(){
-		if (this.loc.X - this.destination.X < this.proximity && this.loc.Y - this.destination.Y < this.proximity)
+		if (this.loc.x - this.destination.x < this.proximity && this.loc.y - this.destination.y < this.proximity)
 			return true;
 		
 		return false;
@@ -209,8 +209,8 @@ function predator (x, y, health, weight) {
 	let randomX = Math.random() * 500;
 	let randomY = Math.random() * 100;	
 	this.destination = new position(randomX, randomY, 0, 0);
-	this.incrementX = (this.destination.X - this.loc.X) / 50;
-	this.incrementY = (this.destination.Y - this.loc.Y) / 50;
+	this.incrementX = (this.destination.x - this.loc.x) / 50;
+	this.incrementY = (this.destination.y - this.loc.y) / 50;
 
 	this.shotWait = 0;
 	this.waitTime = 25;
@@ -235,13 +235,13 @@ function predator (x, y, health, weight) {
 				}
 				break;
 			case PredatorState.MOVE:
-				this.loc.X = this.incrementX + this.loc.X;
-				this.loc.Y = this.incrementY + this.loc.Y;
+				this.loc.x = this.incrementX + this.loc.x;
+				this.loc.y = this.incrementY + this.loc.y;
 
 				if (this.inProximityOfDestination() || this.isOutofBounds()){
 					this.destination = this.getDestination();
-					this.incrementX = (this.destination.X - this.loc.X) / 50;
-					this.incrementY = (this.destination.Y - this.loc.Y) / 50;
+					this.incrementX = (this.destination.x - this.loc.x) / 50;
+					this.incrementY = (this.destination.y - this.loc.y) / 50;
 					this.state = PredatorState.SHOOT;
 					this.readyToShoot = true;
 				}
@@ -255,17 +255,17 @@ function predator (x, y, health, weight) {
 
 		if (debugCollisions){
 			ctx.strokeStyle = 'White';
-			ctx.strokeRect(this.loc.X, this.loc.Y, this.loc.width, this.loc.height);
+			ctx.strokeRect(this.loc.x, this.loc.y, this.loc.width, this.loc.height);
 			return;
 		}
 
 		this.color = WeightChart(this.health);
 
 		ctx.beginPath();
-		ctx.moveTo(this.loc.centerX(), this.loc.Y);
-		ctx.lineTo(this.loc.getX1(), this.loc.Y + this.loc.height / 3);
+		ctx.moveTo(this.loc.centerX(), this.loc.y);
+		ctx.lineTo(this.loc.getX1(), this.loc.y + this.loc.height / 3);
 		ctx.lineTo(this.loc.centerX(), this.loc.getY1());
-		ctx.lineTo(this.loc.X, this.loc.Y + this.loc.height / 3);
+		ctx.lineTo(this.loc.x, this.loc.y + this.loc.height / 3);
 		ctx.closePath();
 		ctx.fillStyle = this.color;
 		ctx.fill();
@@ -291,17 +291,17 @@ function predator (x, y, health, weight) {
 		let X = this.loc.centerX();
 		let Y = this.loc.centerY();
 
-		let incrementX = (playerLoc.X - X) / 25;
-		let incrementY = (playerLoc.Y - Y) / 25;
+		let incrementX = (playerLoc.x - X) / 25;
+		let incrementY = (playerLoc.y - Y) / 25;
 
-		let target = new position(playerLoc.X, playerLoc.Y, 0, 0)
+		let target = new position(playerLoc.x, playerLoc.y, 0, 0)
 
 		return new missile(X + incrementX, Y + incrementY, target, speed, this.weight);
 	}
 
 	this.getDestination = function(){
 		let newDestination = this.destination;
-		while(this.distanceFromPoint(newDestination.X, newDestination.Y) < this.proximity){
+		while(this.distanceFromPoint(newDestination.x, newDestination.y) < this.proximity){
 			let randomX = Math.random() * 500;
 		if (randomX < 10)
 			randomX = 10;
@@ -320,21 +320,21 @@ function predator (x, y, health, weight) {
 	}
 
 	this.isOutofBounds = function(){
-		if (this.loc.X < 0 || this.loc.X > 500 || this.loc.Y < 0 || this.loc.Y > 700)
+		if (this.loc.x < 0 || this.loc.x > 500 || this.loc.y < 0 || this.loc.y > 700)
 			return true;
 		
 		return false;
 	}
 
 	this.inProximityOfDestination = function(){
-		if (this.distanceFromPoint(this.destination.X, this.destination.Y) < this.proximity)
+		if (this.distanceFromPoint(this.destination.x, this.destination.y) < this.proximity)
 			return true;
 		
 		return false;
 	}
 
 	this.distanceFromPoint = function(x, y){
-		let distance = Math.sqrt(Math.pow(this.loc.X - x, 2) + Math.pow(this.loc.Y - y, 2));
+		let distance = Math.sqrt(Math.pow(this.loc.x - x, 2) + Math.pow(this.loc.y - y, 2));
 		return distance;
 	}
 }

@@ -10,7 +10,7 @@ function levelTracker(){
 	this.state = MakerState.PRODUCE;
 	this.startProducingAt = 0;
 	
-	this.Process = function(frameNumber, enemies){
+	this.update = function(frameNumber, enemies){
 		switch(this.state)
 		{
 			case MakerState.PRODUCE:

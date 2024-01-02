@@ -63,12 +63,8 @@ function game(){
 		this.gameState = 'Run';
 	}
 
-	this.playGame = function(){
-		// let X = Math.random() * 1000;
-		// if(this.enemies.length < 5 && X > 990 ){
-		// 	this.enemies.push(new swooper((Math.random() * 400 + 100), Math.random() * 50, this.level, this.level));
-		// }
-		this.levelTracker.Process(this.frameNumber, this.enemies);
+	this.playGame = function(){	
+		this.levelTracker.update(this.frameNumber, this.enemies);
 		this.player.update();
 
 		// Handle dead player
@@ -115,16 +111,16 @@ function game(){
 				if (this.enemies[j].isDead())
 					continue;
 
-				if (this.missiles[i].loc.CollidedWith(this.enemies[j].loc)){
+				if (this.missiles[i].loc.collidedWith(this.enemies[j].loc)){
 					this.enemies[j].health -= this.missiles[i].weight;
 					missilesToRemove.push(i);
 
 					if (this.enemies[j].isDead()){
 					// The enemy player hit has died. Get Points!
-						this.score += this.enemies[j].Weight * 100;
-						this.explosions.push(new kaboom(this.enemies[j].loc.X + this.enemies[j].loc.width / 2, this.enemies[j].loc.Y, 15));
-						if (this.levelTracker.levelNumber > 1 && Math.random() > 0.9){
-							this.powerups.push(new powerup(this.enemies[j].loc.X, this.enemies[j].loc.Y));
+						this.score += this.enemies[j].weight * 100;
+						this.explosions.push(new kaboom(this.enemies[j].loc.x + this.enemies[j].loc.width / 2, this.enemies[j].loc.y, 15));
+						if(true){// (this.levelTracker.levelNumber > 1 && Math.random() > 0.9){
+							this.powerups.push(new powerup(this.enemies[j].loc.x, this.enemies[j].loc.y));
 						}
 						this.kills += 1;
 					}
@@ -140,7 +136,7 @@ function game(){
 			if (this.enemies[i].isDead())
 				continue;
 
-			if( !this.player.invincible && this.enemies[i].loc.CollidedWith( this.player.loc) ){
+			if( !this.player.invincible && this.enemies[i].loc.collidedWith( this.player.loc) ){
 				if (this.player.shields > 0){
 						this.player.invincible = true;
 						this.player.shields -= 1;
@@ -158,12 +154,12 @@ function game(){
 				this.enemyProjectiles.push(projectile);
 			}
 			// If enemy gets to the bottom stop thinking about him
-			if (this.enemies[i].loc.Y > 720)
+			if (this.enemies[i].loc.y > 720)
 				enemiesToRemove.push(i);
 		}
 
 		for(let i = 0; i < this.enemyProjectiles.length; i++){
-			if(!this.player.invincible && this.enemyProjectiles[i].loc.CollidedWith(this.player.loc)){
+			if(!this.player.invincible && this.enemyProjectiles[i].loc.collidedWith(this.player.loc)){
 				if (this.player.shields > 0){
 					this.player.invincible = true;
 					this.player.shields -= 1;
@@ -187,11 +183,11 @@ function game(){
 		}
 
 		for (let i = 0; i < this.powerups.length; i++){
-			if( this.powerups[i].loc.CollidedWith( this.player.loc) ){
+			if( this.powerups[i].loc.collidedWith( this.player.loc) ){
 				this.player.processPowerUp(this.powerups[i].letter);
 				powerupsToRemove.push(i);
 			}
-			if( this.powerups[i].loc.Y > 720 ){
+			if( this.powerups[i].loc.y > 720 ){
 				powerupsToRemove.push(i);
 			}
 		}
