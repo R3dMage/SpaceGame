@@ -136,10 +136,10 @@ function player(){
 	this.processPowerUp = function(powerupLetter){
 		switch(powerupLetter){
 			case 'M':
-				this.WeaponWeight += 1;
+				this.weaponWeight += 1;
 				break;
 			case 'D':
-				this.DualCannon = true;
+				this.dualCannon = true;
 				break;
 			case 'S':
 				this.shields += 1;
