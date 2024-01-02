@@ -64,7 +64,7 @@ function game(){
 	}
 
 	this.playGame = function(){	
-		this.levelTracker.Process(this.frameNumber, this.enemies);
+		this.levelTracker.update(this.frameNumber, this.enemies);
 		this.player.update();
 
 		// Handle dead player
