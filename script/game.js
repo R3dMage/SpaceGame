@@ -63,11 +63,7 @@ function game(){
 		this.gameState = 'Run';
 	}
 
-	this.playGame = function(){
-		// let X = Math.random() * 1000;
-		// if(this.enemies.length < 5 && X > 990 ){
-		// 	this.enemies.push(new swooper((Math.random() * 400 + 100), Math.random() * 50, this.level, this.level));
-		// }
+	this.playGame = function(){	
 		this.levelTracker.Process(this.frameNumber, this.enemies);
 		this.player.update();
 
