@@ -7,6 +7,10 @@ function player(){
 	this.WeaponWeight = 1;
 	this.readyToShoot = true;
 	this.shotDelay = 10;
+	this.laserEnergyMax = 100;
+	this.laserEnergy = this.laserEnergyMax;
+	this.maxRechargeDelay = 10;
+	this.rechargeDelay = this.maxRechargeDelay;
 
 // Shields
 	this.Shields = 0;
@@ -23,6 +27,7 @@ function player(){
 		this.DualCannon = false;
 		this.WeaponWeight = 1;
 		this.Shields = 0;
+		this.laserEnergy = this.laserEnergyMax;
 	}
 	
 	this.setPosition = function(x, y){
@@ -43,14 +48,14 @@ function player(){
 	}
 
 	this.canShoot = function(frameNumber){
-		if (frameNumber > this.shotDelay && this.readyToShoot && !this.Exploding){
+		if (frameNumber > this.shotDelay && this.readyToShoot && !this.Exploding && this.laserEnergy > 10){
 			this.readyToShoot = false;
 			return true;
 		}
 
 	}
 	
-	this.getMissileType = function(){		
+	this.getMissileType = function(){
 		if(this.DualCannon)
 			return 'DUAL';
 		
@@ -146,6 +151,7 @@ function player(){
 
 	this.resetShootDelay = function(){
 		this.readyToShoot = true;
+		this.rechargeDelay = 0;
 	}
 
 	this.getProjectiles = function(){
@@ -155,15 +161,25 @@ function player(){
 		let offset = this.Wingspan;
 		
 		if(this.DualCannon){
+			this.laserEnergy -= 20;
 			target = new position(this.loc.X + 2, -10, 0, 0);
 			projectiles.push(new missile(this.loc.X + 2, this.loc.Y, target, shotSpeed, this.WeaponWeight));
 			target = new position(this.loc.X + 12, -10, 0, 0);
 			projectiles.push(new missile(this.loc.X + 12, this.loc.Y, target, shotSpeed, this.WeaponWeight));
 		}
 		else{
+			this.laserEnergy -= 10;
 			projectiles.push(new missile(this.loc.X + offset, this.loc.Y, target, shotSpeed, this.WeaponWeight));
 		}
 		return projectiles;
+	}
+
+	this.update = function(){
+		if(this.rechargeDelay < this.maxRechargeDelay)
+			this.rechargeDelay += 1;
+
+		if(this.laserEnergy < this.laserEnergyMax && this.rechargeDelay == this.maxRechargeDelay)
+			this.laserEnergy += 1;
 	}
 }
 

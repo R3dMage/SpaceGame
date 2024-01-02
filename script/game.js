@@ -69,6 +69,7 @@ function game(){
 		// 	this.enemies.push(new swooper((Math.random() * 400 + 100), Math.random() * 50, this.level, this.level));
 		// }
 		this.levelTracker.Process(this.frameNumber, this.enemies);
+		this.player.update();
 
 		// Handle dead player
 		if( this.lives <= 0 && !this.player.Exploding ){
