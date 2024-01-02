@@ -42,8 +42,8 @@ function player(){
 			if(y > 720 - this.loc.height)
 				y = 720 - this.loc.height;
 				
-			this.loc.X = x;
-			this.loc.Y = y;
+			this.loc.x = x;
+			this.loc.y = y;
 		}
 	}
 
@@ -65,12 +65,12 @@ function player(){
 	this.draw = function(ctx){
 		if(debugCollisions){
 			ctx.strokeStyle = 'White';
-			ctx.strokeRect(this.loc.X, this.loc.Y, this.loc.width, this.loc.height);
+			ctx.strokeRect(this.loc.x, this.loc.y, this.loc.width, this.loc.height);
 			return;
 		}
 
-		let drawX = this.loc.X + this.wingspan;
-		let drawY = this.loc.Y;
+		let drawX = this.loc.x + this.wingspan;
+		let drawY = this.loc.y;
 		try {
 			if(!this.exploding){
 				ctx.beginPath();
@@ -100,8 +100,8 @@ function player(){
 			else{
 				this.explodeDistance += 0.5;
 				ctx.beginPath();
-				ctx.moveTo(drawX, this.loc.Y);
-				ctx.arc(drawX, this.loc.Y, this.explodeDistance, 2 * Math.PI, false);
+				ctx.moveTo(drawX, this.loc.y);
+				ctx.arc(drawX, this.loc.y, this.explodeDistance, 2 * Math.PI, false);
 				if(this.explodeDistance % 2 == 0)
 					ctx.fillStyle = 'rgba(255, 255, 255, 1)';
 				else
@@ -110,8 +110,8 @@ function player(){
 				if (this.explodeDistance >= 40){
 					this.explodeDistance = 0;
 					this.exploding = false;
-					this.loc.X = 250;
-					this.loc.Y = 634;
+					this.loc.x = 250;
+					this.loc.y = 634;
 				}
 			}
 		}
@@ -128,7 +128,7 @@ function player(){
 		
 		ctx.strokeStyle = WeightChart(this.shields);
 		ctx.beginPath();
-		ctx.arc(this.loc.X + this.wingspan, this.loc.Y + this.loc.height/2, shieldRadius, 2 * Math.PI, false);
+		ctx.arc(this.loc.x + this.wingspan, this.loc.y + this.loc.height/2, shieldRadius, 2 * Math.PI, false);
 		ctx.closePath();
 		ctx.stroke();
 	}
@@ -148,19 +148,19 @@ function player(){
 	}
 
 	this.moveLeft = function(){
-		this.setPosition(this.loc.X - this.speed, this.loc.Y);
+		this.setPosition(this.loc.x - this.speed, this.loc.y);
 	}
 
 	this.moveRight = function(){
-		this.setPosition(this.loc.X + this.speed, this.loc.Y);
+		this.setPosition(this.loc.x + this.speed, this.loc.y);
 	}
 
 	this.moveUp = function(){
-		this.setPosition(this.loc.X, this.loc.Y - this.speed);
+		this.setPosition(this.loc.x, this.loc.y - this.speed);
 	}
 
 	this.moveDown = function(){
-		this.setPosition(this.loc.X, this.loc.Y + this.speed);
+		this.setPosition(this.loc.x, this.loc.y + this.speed);
 	}
 
 	this.resetShootDelay = function(){
@@ -171,19 +171,19 @@ function player(){
 	this.getProjectiles = function(){
 		let projectiles = [];
 		let shotSpeed = 10;
-		let target = new position(this.loc.X, -10, 0, 0);
+		let target = new position(this.loc.x, -10, 0, 0);
 		let offset = this.wingspan;
 		
 		if(this.dualCannon){
 			this.laserEnergy -= 20;
-			target = new position(this.loc.X + 2, -10, 0, 0);
-			projectiles.push(new missile(this.loc.X + 2, this.loc.Y, target, shotSpeed, this.weaponWeight));
-			target = new position(this.loc.X + 12, -10, 0, 0);
-			projectiles.push(new missile(this.loc.X + 12, this.loc.Y, target, shotSpeed, this.weaponWeight));
+			target = new position(this.loc.x + 2, -10, 0, 0);
+			projectiles.push(new missile(this.loc.x + 2, this.loc.y, target, shotSpeed, this.weaponWeight));
+			target = new position(this.loc.x + 12, -10, 0, 0);
+			projectiles.push(new missile(this.loc.x + 12, this.loc.y, target, shotSpeed, this.weaponWeight));
 		}
 		else{
 			this.laserEnergy -= 10;
-			projectiles.push(new missile(this.loc.X + offset, this.loc.Y, target, shotSpeed, this.weaponWeight));
+			projectiles.push(new missile(this.loc.x + offset, this.loc.y, target, shotSpeed, this.weaponWeight));
 		}
 		return projectiles;
 	}
@@ -202,19 +202,19 @@ function missile(x, y, target, speed, weight){
 	this.target = target;
 	this.weight = weight;
 	this.speed = speed;
-	this.direction = Math.atan2(target.Y - this.loc.Y, target.X - this.loc.X);
+	this.direction = Math.atan2(target.y - this.loc.y, target.x - this.loc.x);
 
 	this.Color = WeightChart(this.weight);
 
 	this.draw = function(ctx){
 		if (debugCollisions){
 			ctx.strokeStyle = 'White';
-			ctx.strokeRect(this.loc.X, this.loc.Y, this.loc.width, this.loc.height);
+			ctx.strokeRect(this.loc.x, this.loc.y, this.loc.width, this.loc.height);
 			return;
 		}
 
 		ctx.save();
-		ctx.translate(this.loc.X, this.loc.Y);
+		ctx.translate(this.loc.x, this.loc.y);
 		ctx.rotate(this.direction + Math.PI / 2);
 
 		ctx.fillStyle = this.Color;
@@ -224,12 +224,12 @@ function missile(x, y, target, speed, weight){
 	}
 
 	this.move = function(){
-		this.loc.X += Math.cos(this.direction) * this.speed;
-		this.loc.Y += Math.sin(this.direction) * this.speed;
+		this.loc.x += Math.cos(this.direction) * this.speed;
+		this.loc.y += Math.sin(this.direction) * this.speed;
 	}
 
 	this.endDuration = function(){
-		if(this.loc.Y < -5 || this.loc.Y > 720 || this.loc.X < -5 || this.loc.X > 500)
+		if(this.loc.y < -5 || this.loc.y > 720 || this.loc.x < -5 || this.loc.x > 500)
 			return true;
 
 		return false;

@@ -122,9 +122,9 @@ function game(){
 					if (this.enemies[j].isDead()){
 					// The enemy player hit has died. Get Points!
 						this.score += this.enemies[j].Weight * 100;
-						this.explosions.push(new kaboom(this.enemies[j].loc.X + this.enemies[j].loc.width / 2, this.enemies[j].loc.Y, 15));
+						this.explosions.push(new kaboom(this.enemies[j].loc.x + this.enemies[j].loc.width / 2, this.enemies[j].loc.y, 15));
 						if (this.levelTracker.levelNumber > 1 && Math.random() > 0.9){
-							this.powerups.push(new powerup(this.enemies[j].loc.X, this.enemies[j].loc.Y));
+							this.powerups.push(new powerup(this.enemies[j].loc.x, this.enemies[j].loc.y));
 						}
 						this.kills += 1;
 					}
@@ -158,7 +158,7 @@ function game(){
 				this.enemyProjectiles.push(projectile);
 			}
 			// If enemy gets to the bottom stop thinking about him
-			if (this.enemies[i].loc.Y > 720)
+			if (this.enemies[i].loc.y > 720)
 				enemiesToRemove.push(i);
 		}
 
@@ -191,7 +191,7 @@ function game(){
 				this.player.processPowerUp(this.powerups[i].letter);
 				powerupsToRemove.push(i);
 			}
-			if( this.powerups[i].loc.Y > 720 ){
+			if( this.powerups[i].loc.y > 720 ){
 				powerupsToRemove.push(i);
 			}
 		}

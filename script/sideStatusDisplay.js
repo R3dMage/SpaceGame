@@ -3,7 +3,7 @@ function sideStatusDisplay(x, y, width, height){
 
 	this.draw = function(ctx, player, showStatus){
 		ctx.fillStyle = '#EEEEEE';
-		ctx.fillRect(this.loc.X, this.loc.Y, this.loc.width, this.loc.height);
+		ctx.fillRect(this.loc.x, this.loc.y, this.loc.width, this.loc.height);
 		
 		if (!showStatus)
 			return;
