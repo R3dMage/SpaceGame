@@ -35,6 +35,8 @@ function sideStatusDisplay(x, y, width, height){
 		this.drawPowerUp(ctx, 'M', new position(505, bottomY - spacer * 3, 20, 20));
 		this.drawPowerUp(ctx, 'D', new position(505, bottomY - spacer * 2, 20, 20));
 		this.drawPowerUp(ctx, 'S', new position(505, bottomY - spacer, 20, 20));
+
+		this.drawPlayerEnergy(ctx, player);
 	}
 
 	this.drawPowerUp = function(ctx, letter, location){
@@ -70,5 +72,33 @@ function sideStatusDisplay(x, y, width, height){
 		ctx.fillStyle = '#000000';
 		ctx.textAlign = 'left';
 		ctx.fillText(description, location.centerX() + 15, textY);
+	}
+
+	this.drawPlayerEnergy = function(ctx, player){
+		let energy = player.laserEnergy;
+		let energyMax = player.laserEnergyMax;
+		let energyWidth = 100;
+		let energyHeight = 10;
+		let energyX = 480 - energyWidth;
+		let energyY = 740 - energyHeight;
+
+		ctx.fillStyle = '#888888';
+		ctx.fillRect(0, 720, 500, 30);
+
+		if (energy < energyMax / 3)
+			ctx.fillStyle = '#FF0000';
+		else if (energy < energyMax * 2 / 3)
+			ctx.fillStyle = '#FFFF00';
+		else
+			ctx.fillStyle = '#00FF00';
+
+		ctx.fillRect(energyX, energyY, energyWidth * (energy / energyMax), energyHeight);
+		ctx.strokeStyle = '#FFFFFF';
+		ctx.strokeRect(energyX, energyY, energyWidth, energyHeight);
+
+		ctx.font = 'italic bold 15px Arial';
+		ctx.fillStyle = '#000000';
+		ctx.textAlign = 'left';
+		ctx.fillText( 'WEAPON ENERGY:', 230, 740 );
 	}
 }

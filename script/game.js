@@ -15,7 +15,7 @@ function game(){
 	this.gLoop;
 	this.gameState = 'PreRun';
 	this.width = 500;
-	this.height = 720;
+	this.height = 750;
 	this.levelTracker = new levelTracker();
 	this.background = new background(25, this.height, this.width);
 	this.background.initialize();
@@ -24,7 +24,7 @@ function game(){
 	this.gameCanvas.top = 150;
 	this.gameCanvas.width = this.width + 110;
 	this.gameCanvas.height = this.height;
-	this.sideStatus = new sideStatusDisplay(500, 0, 110, 720);
+	this.sideStatus = new sideStatusDisplay(500, 0, 110, 750);
 
 	this.clear = function(){
 		this.ctx.fillStyle = '#000000';
@@ -69,6 +69,7 @@ function game(){
 		// 	this.enemies.push(new swooper((Math.random() * 400 + 100), Math.random() * 50, this.level, this.level));
 		// }
 		this.levelTracker.Process(this.frameNumber, this.enemies);
+		this.player.update();
 
 		// Handle dead player
 		if( this.lives <= 0 && !this.player.Exploding ){
