@@ -133,6 +133,20 @@ function player(){
 		ctx.stroke();
 	}
 
+	this.processPowerUp = function(powerupLetter){
+		switch(powerupLetter){
+			case 'M':
+				this.WeaponWeight += 1;
+				break;
+			case 'D':
+				this.DualCannon = true;
+				break;
+			case 'S':
+				this.Shields += 1;
+				break;
+		}
+	}
+
 	this.moveLeft = function(){
 		this.setPosition(this.loc.X - this.speed, this.loc.Y);
 	}
