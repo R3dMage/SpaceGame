@@ -15,7 +15,7 @@ function sideStatusDisplay(x, y, width, height){
 		ctx.fillText( 'Gun:', 505, 120 );
 		ctx.fillText( 'Shield:', 505, 140 );
 
-		if( player.Shields == 0 )
+		if( player.shields == 0 )
 			ctx.fillText( 'NONE', 550, 140 );
 		else
 		{
