@@ -203,7 +203,7 @@ function predator (x, y, health, weight) {
 	this.loc = new position(x, y, 20, 25);
 	this.health = health;
 	this.weight = weight;
-	this.state = PredatorState.WAIT;
+	this.state = PredatorState.MOVE;
 
 	this.proximity = 25;	
 	let randomX = Math.random() * 500;
@@ -215,17 +215,20 @@ function predator (x, y, health, weight) {
 	this.shotWait = 0;
 	this.waitTime = 25;
 
+	this.shootTime = 1 * weight;
+	this.currentShootTime = 0;
+
 	this.move = function(){
 		if (this.isDead())
 			return;
 
 		switch(this.state){
 			case PredatorState.SHOOT:
-				// this.shotWait += 1;
-				// if (this.shotWait >= this.waitTime){
-				// 	this.shotWait = 0;
-				// 	this.state = PredatorState.WAIT;
-				// }
+				this.currentShootTime += 1;
+				if (this.currentShootTime >= this.shootTime){
+					this.currentShootTime = 0;
+					this.state = PredatorState.WAIT;
+				}
 				break;
 			case PredatorState.WAIT:
 				this.shotWait += 1;
@@ -279,6 +282,7 @@ function predator (x, y, health, weight) {
 	}
 
 	this.canShoot = function(){
+		return this.state == PredatorState.SHOOT;
 		if (this.state == PredatorState.SHOOT){
 			return true;
 		}
@@ -286,7 +290,6 @@ function predator (x, y, health, weight) {
 	}
 
 	this.getProjectile = function(playerLoc){
-		this.state = PredatorState.WAIT;
 		let speed = 15;
 		let X = this.loc.centerX();
 		let Y = this.loc.centerY();
