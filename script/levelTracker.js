@@ -3,8 +3,9 @@ var MakerState = {
 	WAIT      :  1,
 	NEXT_LEVEL:  2};
 
-function levelTracker(){
+function levelTracker(maxLevel){
 	this.levelNumber = 1;
+	this.maxLevel = maxLevel;
 	this.levelFactory = new levelFactory();
 	this.level = this.levelFactory.create(this.levelNumber);
 	this.state = MakerState.PRODUCE;
@@ -65,5 +66,9 @@ function levelTracker(){
 
 	this.showLevelUp = function(){
 		return this.state == MakerState.NEXT_LEVEL;
+	}
+
+	this.victoryConditionsMet = function(){
+		return this.levelNumber > this.maxLevel;
 	}
 }

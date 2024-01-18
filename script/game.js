@@ -1,5 +1,6 @@
 
 function game(){
+	this.lastLevel = 15;
 	this.score = 0;
 	this.lives = 5;
 	this.kills = 0;
@@ -16,7 +17,7 @@ function game(){
 	this.gameState = 'PreRun';
 	this.width = 500;
 	this.height = 750;
-	this.levelTracker = new levelTracker();
+	this.levelTracker = new levelTracker(this.lastLevel);
 	this.background = new background(25, this.height, this.width);
 	this.background.initialize();
 	this.gameCanvas = document.getElementById('gameCanvas');
@@ -54,7 +55,7 @@ function game(){
 	this.startGame = function(){
 		this.enemies.splice(0, this.enemies.length);
 		this.missiles.splice(0, this.enemies.length);
-		this.levelTracker = new levelTracker();
+		this.levelTracker = new levelTracker(this.lastLevel);
 		this.kills = 0;
 		this.score = 0;
 		this.lives = 5;
@@ -67,15 +68,20 @@ function game(){
 		this.levelTracker.update(this.frameNumber, this.enemies);
 		this.player.update();
 
+		this.moveObjects();
+		this.update();
+		this.drawObjects();
+
 		// Handle dead player
 		if( this.lives <= 0 && !this.player.exploding ){
 				this.gameState = 'GameOver';
 				this.currentGameOverDelay = this.frameNumber + this.gameOverDelay;
 		}
 
-		this.moveObjects();
-		this.update();
-		this.drawObjects();
+		if( this.levelTracker.victoryConditionsMet())
+		{
+			this.gameState = 'Victory';
+		}
 	}
 
 	this.moveObjects = function(){
@@ -267,6 +273,23 @@ function game(){
 	
 	}
 
+	this.victoryScreen = function(){
+		this.clear(this.ctx);
+		this.ctx.fillStyle = "Green";
+		this.ctx.font = "40px Arial";
+		this.ctx.textAlign = 'center';
+		this.ctx.fillText("VICTORY!", 500/2, 200);
+		
+		if (this.frameNumber > this.currentGameOverDelay){
+			this.ctx.font = '20px Arial';
+			this.ctx.fillText('Refresh to play again',250, 500);
+		}
+		
+		this.background.move(1);
+		this.background.draw(this.ctx);
+		this.sideStatus.draw(this.ctx, this.player, false);
+	}
+
 	this.drawStatus = function(ctx){
 		ctx.fillStyle = "White";
 		ctx.font = "15px Arial";
@@ -318,14 +341,17 @@ function game(){
 		this.frameNumber += 1;
 		switch (this.gameState){
 		case "PreRun":
-				this.preGame();
-					break;
+			this.preGame();
+			break;
 		case "Run":
-				this.playGame();
-					break;
+			this.playGame();
+			break;
 		case "GameOver":
-				this.gameOver();
-					break;
+			this.gameOver();
+			break;
+		case "Victory":
+			this.victoryScreen();
+			break;
 		}
 	}
 }
