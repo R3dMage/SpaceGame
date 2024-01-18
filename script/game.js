@@ -18,7 +18,7 @@ function game(){
 	this.width = 500;
 	this.height = 750;
 	this.levelTracker = new levelTracker(this.lastLevel);
-	this.background = new background(25, this.height, this.width);
+	this.background = new background(25, this.height, this.width);	
 	this.background.initialize();
 	this.gameCanvas = document.getElementById('gameCanvas');
 	this.ctx = this.gameCanvas.getContext('2d');
@@ -81,6 +81,8 @@ function game(){
 		if( this.levelTracker.victoryConditionsMet())
 		{
 			this.gameState = 'Victory';
+			this.background = new winBackground(this.height, this.width);
+			this.background.initialize();
 		}
 	}
 
