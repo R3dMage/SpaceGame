@@ -271,6 +271,7 @@ function game(){
 		
 		this.background.move(1);
 		this.background.draw(this.ctx);
+		this.drawStatus(this.ctx);
 		this.sideStatus.draw(this.ctx, this.player, false);
 	
 	}
