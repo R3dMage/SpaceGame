@@ -215,7 +215,7 @@ function predator (x, y, health, weight) {
 	this.shotWait = 0;
 	this.waitTime = 25;
 
-	this.shootTime = 1 * weight;
+	this.shootTime = 1 + Math.floor(weight / 5);
 	this.currentShootTime = 0;
 
 	this.move = function(){
