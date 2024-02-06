@@ -3,13 +3,14 @@ var MakerState = {
 	WAIT      :  1,
 	NEXT_LEVEL:  2};
 
-function levelTracker(maxLevel){
+function levelTracker(maxLevel, levelHandler){
 	this.levelNumber = 1;
 	this.maxLevel = maxLevel;
 	this.levelFactory = new levelFactory();
 	this.level = this.levelFactory.create(this.levelNumber);
 	this.state = MakerState.PRODUCE;
 	this.startProducingAt = 0;
+	this.levelHandler = levelHandler;
 	
 	this.update = function(frameNumber, enemies){
 		switch(this.state)
@@ -59,6 +60,7 @@ function levelTracker(maxLevel){
 		}
 
 		this.state = MakerState.NEXT_LEVEL;
+		this.levelHandler.onLevelUp(this.levelNumber);
 		this.startProducingAt = frameNumber + 150;
 		this.levelNumber += 1;
 		this.level = this.levelFactory.create(this.levelNumber);
