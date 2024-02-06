@@ -17,7 +17,6 @@ function game(){
 	this.gameState = 'PreRun';
 	this.width = 500;
 	this.height = 750;
-	this.levelTracker = new levelTracker(this.lastLevel);
 	this.background = new background(25, this.height, this.width);	
 	this.background.initialize();
 	this.gameCanvas = document.getElementById('gameCanvas');
@@ -55,7 +54,7 @@ function game(){
 	this.startGame = function(){
 		this.enemies.splice(0, this.enemies.length);
 		this.missiles.splice(0, this.enemies.length);
-		this.levelTracker = new levelTracker(this.lastLevel);
+		this.levelTracker = new levelTracker(this.lastLevel, this);
 		this.kills = 0;
 		this.score = 0;
 		this.lives = 5;
@@ -64,7 +63,7 @@ function game(){
 		this.gameState = 'Run';
 	}
 
-	this.playGame = function(){	
+	this.playGame = function(){
 		this.levelTracker.update(this.frameNumber, this.enemies);
 		this.player.update();
 
@@ -111,7 +110,7 @@ function game(){
 		this.updateEnemies();
 		this.updateEnemyProjectiles();
 		this.updateExplosions();
-		this.updatePowerUps();		
+		this.updatePowerUps();
 	}
 
 	this.updateMissiles = function(){
@@ -308,7 +307,19 @@ function game(){
 			ctx.font = "40px Arial";
 			ctx.textAlign = 'center';
 			ctx.fillText("Level Up!", 500/2, 200);
+
+			if((this.levelTracker.levelNumber - 1) % 3 == 0)
+			{
+				ctx.font = "20 px Arial";
+				ctx.textAlign = "center";
+				ctx.fillText("EXTRA LIFE!!!", 500/2, 300);
+			}
 		}
+	}
+
+	this.onLevelUp = function(level){
+		if((level - 1) % 3 == 0)
+			this.lives += 1;
 	}
 
 	this.playerShoot = function(event){
