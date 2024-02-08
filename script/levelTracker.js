@@ -60,9 +60,9 @@ function levelTracker(maxLevel, levelHandler){
 		}
 
 		this.state = MakerState.NEXT_LEVEL;
-		this.levelHandler.onLevelUp(this.levelNumber);
 		this.startProducingAt = frameNumber + 150;
 		this.levelNumber += 1;
+		this.levelHandler.onLevelUp(this.levelNumber);
 		this.level = this.levelFactory.create(this.levelNumber);
 	}
 

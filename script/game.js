@@ -310,9 +310,15 @@ function game(){
 
 			if((this.levelTracker.levelNumber - 1) % 3 == 0)
 			{
-				ctx.font = "20 px Arial";
+				ctx.font = "20px Arial";
 				ctx.textAlign = "center";
 				ctx.fillText("EXTRA LIFE!!!", 500/2, 300);
+			}
+			if((this.levelTracker.levelNumber -1) % 5 == 0)
+			{
+				ctx.font = "20px Arial";
+				ctx.textAlign = "center";
+				ctx.fillText("LASER ENERGY BOOST!!!", 500/2, 300);
 			}
 		}
 	}
@@ -320,6 +326,9 @@ function game(){
 	this.onLevelUp = function(level){
 		if((level - 1) % 3 == 0)
 			this.lives += 1;
+
+		if((level - 1) % 5 == 0)
+			this.player.laserEnergyMax *= 1.5;
 	}
 
 	this.playerShoot = function(event){
