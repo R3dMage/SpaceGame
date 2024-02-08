@@ -299,7 +299,6 @@ function predator (x, y, health, weight, playerPositionProvider) {
 	}
 
 	this.canShoot = function(){
-		return false;
 		return this.state == PredatorState.SHOOT;
 		if (this.state == PredatorState.SHOOT){
 			return true;
