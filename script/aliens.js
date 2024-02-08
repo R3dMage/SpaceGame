@@ -199,10 +199,11 @@ function demon(x, y, health, weight) {
 	}
 }
 
-function predator (x, y, health, weight) {
+function predator (x, y, health, weight, playerPositionProvider) {
 	this.loc = new position(x, y, 20, 25);
 	this.health = health;
 	this.weight = weight;
+	this.playerPositionProvider = playerPositionProvider;
 	this.state = PredatorState.MOVE;
 
 	this.proximity = 25;	
@@ -252,26 +253,42 @@ function predator (x, y, health, weight) {
 		}
 	}
 
-	this.draw = function(ctx){
-		if (this.health <= 0)
-			return;
+	this.draw = function(ctx){ 
+		if (this.health <= 0) 
+			return; 
+ 
+		if (debugCollisions){ 
+			ctx.strokeStyle = 'White'; 
+			ctx.strokeRect(this.loc.x, this.loc.y, this.loc.width, this.loc.height); 
+			return; 
+		} 
+ 
+		let targetAngle = this.getAngle();
+		this.color = WeightChart(this.health); 
+ 
+		ctx.save(); 
+		ctx.translate(this.loc.centerX(), this.loc.centerY()); 
+		ctx.rotate(targetAngle) 
+ 
+		third = this.loc.height / 2 - this.loc.height / 3; 
+ 
+		ctx.beginPath(); 
+		ctx.moveTo(0, -this.loc.height / 2); 
+		ctx.lineTo(this.loc.width / 2, -third); 
+		ctx.lineTo(0, this.loc.height / 2); 
+		ctx.lineTo(-this.loc.width / 2, -third); 
+		ctx.closePath(); 
+		ctx.fillStyle = this.color; 
+		ctx.fill(); 
+ 
+		ctx.restore(); 
+	}
 
-		if (debugCollisions){
-			ctx.strokeStyle = 'White';
-			ctx.strokeRect(this.loc.x, this.loc.y, this.loc.width, this.loc.height);
-			return;
-		}
-
-		this.color = WeightChart(this.health);
-
-		ctx.beginPath();
-		ctx.moveTo(this.loc.centerX(), this.loc.y);
-		ctx.lineTo(this.loc.getX1(), this.loc.y + this.loc.height / 3);
-		ctx.lineTo(this.loc.centerX(), this.loc.getY1());
-		ctx.lineTo(this.loc.x, this.loc.y + this.loc.height / 3);
-		ctx.closePath();
-		ctx.fillStyle = this.color;
-		ctx.fill();
+	this.getAngle = function(){
+		let playerLocation = playerPositionProvider.getPlayerPosition();
+		let diffX = playerLocation.x - this.loc.centerX();
+		let diffY = playerLocation.y - this.loc.centerY();
+		return -Math.atan2(diffX,diffY);
 	}
 
 	this.isDead = function(){
@@ -282,6 +299,7 @@ function predator (x, y, health, weight) {
 	}
 
 	this.canShoot = function(){
+		return false;
 		return this.state == PredatorState.SHOOT;
 		if (this.state == PredatorState.SHOOT){
 			return true;

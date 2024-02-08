@@ -3,11 +3,12 @@ var MakerState = {
 	WAIT      :  1,
 	NEXT_LEVEL:  2};
 
-function levelTracker(maxLevel, levelHandler){
+function levelTracker(maxLevel, levelHandler, playerPositionProvider){
 	this.levelNumber = 1;
 	this.maxLevel = maxLevel;
+	this.playerPositionProvider = playerPositionProvider;
 	this.levelFactory = new levelFactory();
-	this.level = this.levelFactory.create(this.levelNumber);
+	this.level = this.levelFactory.create(this.levelNumber, this.playerPositionProvider);
 	this.state = MakerState.PRODUCE;
 	this.startProducingAt = 0;
 	this.levelHandler = levelHandler;
@@ -63,7 +64,7 @@ function levelTracker(maxLevel, levelHandler){
 		this.startProducingAt = frameNumber + 150;
 		this.levelNumber += 1;
 		this.levelHandler.onLevelUp(this.levelNumber);
-		this.level = this.levelFactory.create(this.levelNumber);
+		this.level = this.levelFactory.create(this.levelNumber, this.playerPositionProvider);
 	}
 
 	this.showLevelUp = function(){

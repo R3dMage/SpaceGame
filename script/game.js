@@ -54,7 +54,7 @@ function game(){
 	this.startGame = function(){
 		this.enemies.splice(0, this.enemies.length);
 		this.missiles.splice(0, this.enemies.length);
-		this.levelTracker = new levelTracker(this.lastLevel, this);
+		this.levelTracker = new levelTracker(this.lastLevel, this, this);
 		this.kills = 0;
 		this.score = 0;
 		this.lives = 5;
@@ -341,8 +341,11 @@ function game(){
 		if(this.player.canShoot(this.frameNumber)){
 			let projectiles = this.player.getProjectiles();
 			projectiles.forEach((element) => this.missiles.push(element));
-		}
-	
+		}	
+	}
+
+	this.getPlayerPosition = function(){
+		return this.player.loc;
 	}
 
 	this.spacePressed = function(event){

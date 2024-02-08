@@ -2,19 +2,20 @@
 
 function levelFactory(){
 
-	this.create = function(levelNumber){
+	this.create = function(levelNumber, playerPositionProvider){
 		let phases = [];
 		phases.push(new phase(10, 100));
 		phases.push(new phase(10, 50));
 		phases.push(new phase(3, 50));
-		return new level(phases, levelNumber);
+		return new level(phases, levelNumber, playerPositionProvider);
 	}
 }
 
-function level(phases, levelNumber){
+function level(phases, levelNumber, playerPositionProvider){
 	this.phases = phases;
 	this.currentPhase = 0;
 	this.number = levelNumber
+	this.playerPositionProvider = playerPositionProvider;
 
 	this.nextAlien = function(){
 		return this.phases[this.currentPhase].nextAlien;
@@ -48,7 +49,7 @@ function level(phases, levelNumber){
 			case 1:
 				return new demon((Math.random() * 350 + 50), Math.random() * 50, this.number, this.number);
 			case 2:
-				return new predator((Math.random() * 350 + 50), Math.random() * 50, this.number, this.number);
+				return new predator((Math.random() * 350 + 50), Math.random() * 50, this.number, this.number, this.playerPositionProvider);
 		}
 	}
 }
